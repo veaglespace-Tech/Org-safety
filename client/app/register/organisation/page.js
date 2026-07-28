@@ -13,6 +13,7 @@ import { Field } from "@/components/ui/Field";
 import { organisationSchema, organisationDefaultValues } from "@/lib/validations/organisation";
 import { normalizeEmailInput, normalizeTextInput, toDigitsOnly } from "@/utils/formValidation";
 import { getRegistrationDraft, REGISTRATION_DRAFT_KEYS, setRegistrationDraft } from "@/utils/registerDraft";
+import { API_BASE_URL } from "@/services/api/baseApi";
 
 const fieldClassName =
   "w-full rounded-[1.6rem] border-2 bg-white px-4 py-4 text-sm text-slate-900 shadow-[0_16px_40px_rgba(15,23,42,0.08)] outline-none transition-all duration-300 placeholder:text-slate-400 focus:-translate-y-0.5 focus:border-blue-600 focus:ring-4 focus:ring-blue-100/80 dark:border-white/75 dark:bg-white dark:text-slate-950 dark:placeholder:text-slate-500 dark:shadow-[0_18px_45px_rgba(2,6,23,0.35)] dark:focus:border-blue-500 dark:focus:ring-blue-500/20";
@@ -95,7 +96,7 @@ function OrganisationFormContent() {
     setRegistrationDraft(REGISTRATION_DRAFT_KEYS.organisation, orgDraft);
 
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api"}/auth/save-lead`, {
+      await fetch(`${API_BASE_URL}/auth/save-lead`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ org: orgDraft, admin: {} }),
