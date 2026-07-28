@@ -1,0 +1,148 @@
+"use client";
+
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useGetMembersQuery } from "@/services/api/authApi";
+import { Copy, CheckCircle2, Users, Calendar, Shield, Bell, ChevronRight, Activity } from "lucide-react";
+import Link from "next/link";
+
+export default function OrgDashboard() {
+  const { user } = useSelector((state) => state.auth);
+  const { data, isLoading } = useGetMembersQuery();
+  const [copied, setCopied] = useState(false);
+
+  // Generate referral link using the organization ID
+  const referralCode = user?.organization_id ? `REF-${String(user.organization_id).padStart(8, '0')}` : '';
+  const referralLink = typeof window !== 'undefined' && referralCode
+    ? `${window.location.origin}/register/user?ref=${referralCode}` 
+    : '';
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(referralLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const members = data?.members || [];
+
+  return (
+    <div className="page-shell relative min-h-screen px-4 md:px-8 py-8 transition-colors duration-500 flex flex-col lg:flex-row gap-8">
+      {/* Background decorative orbs */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="page-shell-orb-primary absolute left-[-6%] top-24 h-80 w-80 rounded-full blur-[120px]" />
+        <div className="page-shell-orb-secondary absolute right-[-8%] top-36 h-72 w-72 rounded-full blur-[120px]" />
+      </div>
+
+      <div className="flex-1 max-w-6xl w-full mx-auto lg:mx-0 relative z-10">
+        <h1 className="text-3xl font-black mb-6 text-slate-950 dark:text-white tracking-tight">Admin Dashboard</h1>
+        
+        {/* Welcome Section */}
+        <div className="surface-card relative overflow-hidden rounded-[2rem] p-8 mb-8 border border-slate-200/50 dark:border-slate-800/50">
+          <div className="relative z-10">
+            <h2 className="text-3xl font-bold mb-3 text-slate-950 dark:text-white">Welcome back, {user?.name || "Admin"}! 👋</h2>
+            <p className="text-slate-600 dark:text-slate-300 max-w-xl text-lg leading-relaxed font-medium mb-8">
+              Here you can manage your Dhole Tasha Pathak members and share your referral link to instantly add new people to your organization.
+            </p>
+          
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="surface-card rounded-[1.5rem] p-6 border border-slate-200/50 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/50 flex flex-col justify-center">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
+                    <Users size={20} />
+                  </div>
+                  <h3 className="font-bold text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">Total Members</h3>
+                </div>
+                <p className="text-4xl font-black text-slate-950 dark:text-white pl-1">{members.length}</p>
+              </div>
+
+              {/* Referral Link Box */}
+              <div className="md:col-span-2 surface-card rounded-[1.5rem] p-6 border border-slate-200/50 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/50 flex flex-col justify-center">
+                <h3 className="font-bold text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">Share your referral code or link</h3>
+                <div className="flex flex-col sm:flex-row gap-3 mb-3">
+                  <div className="flex items-center gap-3 bg-white dark:bg-slate-950 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner">
+                    <span className="text-slate-500 text-sm font-bold uppercase tracking-wider">Code:</span>
+                    <span className="font-mono text-blue-600 dark:text-blue-400 font-bold">{referralCode}</span>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input 
+                    type="text" 
+                    readOnly 
+                    value={referralLink} 
+                    className="flex-1 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 outline-none font-medium text-sm shadow-inner"
+                  />
+                  <button 
+                    onClick={handleCopyLink}
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-0.5"
+                  >
+                    {copied ? <CheckCircle2 size={18} /> : <Copy size={18} />}
+                    {copied ? 'Copied!' : 'Copy Link'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Members Table */}
+        <div className="surface-card rounded-[2rem] border border-slate-200/50 dark:border-slate-800/50 overflow-hidden">
+          <div className="px-8 py-6 border-b border-slate-200/50 dark:border-slate-800/50 flex justify-between items-center">
+            <h2 className="text-lg font-bold text-slate-950 dark:text-white flex items-center gap-2">
+              <Users size={20} className="text-blue-500"/> Organization Members
+            </h2>
+          </div>
+          
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 uppercase font-bold text-xs tracking-widest">
+                <tr>
+                  <th className="px-8 py-5">Name</th>
+                  <th className="px-8 py-5">Contact</th>
+                  <th className="px-8 py-5">Role</th>
+                  <th className="px-8 py-5">Joined Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200/50 dark:divide-slate-800/50">
+                {isLoading ? (
+                  <tr>
+                    <td colSpan="4" className="px-8 py-12 text-center text-slate-500 font-medium">
+                      Loading members...
+                    </td>
+                  </tr>
+                ) : members.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" className="px-8 py-12 text-center text-slate-500 font-medium">
+                      No members found. Share your referral link to add some!
+                    </td>
+                  </tr>
+                ) : (
+                  members.map((member) => (
+                    <tr key={member.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
+                      <td className="px-8 py-5 font-bold text-slate-950 dark:text-white text-base">{member.name}</td>
+                      <td className="px-8 py-5">
+                        <div className="font-medium text-slate-700 dark:text-slate-300">{member.email}</div>
+                        <div className="text-xs font-medium text-slate-500 dark:text-slate-500">{member.phone || 'No phone'}</div>
+                      </td>
+                      <td className="px-8 py-5">
+                        <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                          member.role === 'admin' 
+                            ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-300' 
+                            : 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300'
+                        }`}>
+                          {member.role}
+                        </span>
+                      </td>
+                      <td className="px-8 py-5 text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
+                        {new Date(member.created_at).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
