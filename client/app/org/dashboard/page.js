@@ -14,13 +14,37 @@ export default function OrgDashboard() {
   // Generate referral link using the organization ID
   const referralCode = user?.organization_id ? `REF-${String(user.organization_id).padStart(8, '0')}` : '';
   const referralLink = typeof window !== 'undefined' && referralCode
-    ? `${window.location.origin}/register/user?ref=${referralCode}` 
+    ? `${process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin}/register/user?ref=${referralCode}` 
     : '';
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(referralLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (!referralLink) return;
+    
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(referralLink)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        })
+        .catch(err => console.error("Clipboard copy failed:", err));
+    } else {
+      // Fallback for HTTP (non-secure context) where clipboard API is disabled by browsers
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = referralLink;
+        textArea.style.position = "absolute";
+        textArea.style.left = "-999999px";
+        document.body.prepend(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        textArea.remove();
+        
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error("Fallback copy failed:", err);
+      }
+    }
   };
 
   const members = data?.members || [];
