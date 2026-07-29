@@ -10,7 +10,7 @@ import GlobalErrorToast from "@/components/ui/GlobalErrorToast";
 import Footer from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
 export const metadata = {
-  title: "ढोल - ताशा - महासंघ - Attendance Management Simplified",
+  title: "ढोल - ताशा महासंघ - Attendance Management Simplified",
   description: "Modern multi-tenant attendance management system for organizations.",
 };
 

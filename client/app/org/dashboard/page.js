@@ -79,7 +79,7 @@ export default function OrgDashboard() {
               </div>
               <div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 text-slate-950 dark:text-white tracking-tight">
-                  {user?.organizations?.name || user?.organization?.name || "ढोल - ताशा - महासंघ"}
+                  {user?.organizations?.name || user?.organization?.name || "ढोल - ताशा महासंघ"}
                 </h2>
                 <p className="text-slate-600 dark:text-slate-300 max-w-xl text-base sm:text-lg leading-relaxed font-medium">
                   Here you can manage your {user?.organizations?.name || user?.organization?.name || "organization's"} members and share your referral link to instantly add new people to your organization.

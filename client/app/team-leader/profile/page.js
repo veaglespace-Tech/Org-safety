@@ -198,7 +198,7 @@ export default function ProfileSettingsPage() {
         </p>
       </div>
 
-      {/* Tabs removed for member layout */}
+      {/* Tabs removed for team-leader layout */}
 
       <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
         <form onSubmit={handleSubmit} className="space-y-6">

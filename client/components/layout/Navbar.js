@@ -108,7 +108,7 @@ export default function Navbar() {
               <div key={pathname} className="brand-logo-reveal relative flex shrink-0 items-center justify-center transition-all duration-500 group-hover:scale-105">
               </div>
               <span className="min-w-0 truncate text-lg font-black tracking-tight text-slate-900 dark:text-white sm:text-xl 2xl:text-2xl">
-                ढोल - ताशा - <span className="brand-wordmark">महासंघ</span>
+                ढोल - ताशा <span className="brand-wordmark">महासंघ</span>
               </span>
             </Link>
 

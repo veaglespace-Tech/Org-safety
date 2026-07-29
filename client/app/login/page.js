@@ -150,7 +150,7 @@ export default function LoginPage() {
                 Team Login
               </SectionEyebrow>
               <h2 className="mb-2 text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-4xl">
-                Welcome to ढोल - ताशा - महासंघ
+                Welcome to ढोल - ताशा महासंघ
               </h2>
               <p className="font-medium tracking-wide text-slate-500 dark:text-slate-300">
                 Sign in to manage attendance, check-ins, and your daily work in one place.

@@ -25,7 +25,7 @@ export default function OrgLayout({ children }) {
         <div className="flex flex-col items-center justify-center h-24 border-b border-slate-800/80">
           <Link href="/" className="cursor-pointer hover:opacity-80 transition-opacity w-full px-4">
             <h1 className="text-xl sm:text-[22px] font-black tracking-tight text-white text-center drop-shadow-md">
-              ढोल - ताशा - <br/><span className="text-blue-500">महासंघ</span>
+              ढोल - ताशा <br/><span className="text-blue-500">महासंघ</span>
             </h1>
           </Link>
         </div>

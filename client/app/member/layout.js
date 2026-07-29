@@ -8,6 +8,8 @@ import { logout } from "@/store/slices/authSlice";
 import { useRouter, usePathname } from "next/navigation";
 import { ROLE_LABELS, normalizeRole } from "@/utils/roles";
 import Footer from "@/components/layout/Footer";
+import DashboardNavbar from "@/components/layout/DashboardNavbar";
+import SidebarLogoText from "@/components/layout/SidebarLogoText";
 
 export default function MemberLayout({ children }) {
   const dispatch = useDispatch();
@@ -24,24 +26,21 @@ export default function MemberLayout({ children }) {
   const displayRole = userRole && ROLE_LABELS[userRole] ? ROLE_LABELS[userRole] : "Member";
 
   const navItems = [
+    { name: "Dashboard", href: "/member/dashboard", icon: LayoutDashboard },
     { name: "तिची सुरक्षा", href: "/member/tich-surksha", icon: ShieldAlert },
+    ...(userRole === 'ORG_ADMIN' || userRole === 'SUPER_ADMIN' || userRole === 'admin' 
+      ? [{ name: "Users", href: "/member/users", icon: Users }] 
+      : []),
     { name: "Profile Settings", href: "/member/profile", icon: UserCog },
   ];
-
-  if (userRole === 'ORG_ADMIN' || userRole === 'SUPER_ADMIN' || userRole === 'admin') {
-    navItems.unshift({ name: "Dashboard", href: "/member/dashboard", icon: LayoutDashboard });
-    navItems.splice(2, 0, { name: "Users", href: "/member/users", icon: Users });
-  }
 
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
       {/* Sidebar */}
       <aside className="w-64 bg-slate-900 dark:bg-slate-900 border-r border-slate-800 flex flex-col transition-all z-20">
         <div className="flex flex-col items-center justify-center h-24 border-b border-slate-800/80">
-          <Link href="/" className="cursor-pointer hover:opacity-80 transition-opacity w-full px-4">
-            <h1 className="text-xl sm:text-[22px] font-black tracking-tight text-white text-center drop-shadow-md">
-              ढोल - ताशा - <br/><span className="text-blue-500">महासंघ</span>
-            </h1>
+          <Link href="/" className="cursor-pointer w-full">
+            <SidebarLogoText user={user} />
           </Link>
         </div>
 
@@ -65,18 +64,11 @@ export default function MemberLayout({ children }) {
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-800">
-          <button 
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 text-rose-400 hover:text-white hover:bg-rose-500 font-bold px-4 py-3 rounded-xl transition-all"
-          >
-            <LogOut size={18} />
-            Logout
-          </button>
-        </div>
+        {/* Logout is now in DashboardNavbar */}
       </aside>
 
       <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <DashboardNavbar />
         <div className="flex-1 overflow-y-auto w-full flex flex-col relative">
           <div className="flex-1">
             {children}

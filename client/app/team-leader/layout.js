@@ -6,6 +6,7 @@ import { LayoutDashboard, Users, QrCode, UserCog } from "lucide-react";
 import { useSelector } from "react-redux";
 import DashboardNavbar from "@/components/layout/DashboardNavbar";
 import Footer from "@/components/layout/Footer";
+import SidebarLogoText from "@/components/layout/SidebarLogoText";
 import { usePathname } from "next/navigation";
 import { PERMISSIONS } from "@/utils/roles";
 
@@ -24,10 +25,8 @@ export default function TeamLeaderLayout({ children }) {
     <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
       <aside className="w-64 bg-slate-900 dark:bg-slate-900 border-r border-slate-800 flex flex-col transition-all z-20">
         <div className="flex flex-col items-center justify-center h-24 border-b border-slate-800/80">
-          <Link href="/" className="cursor-pointer hover:opacity-80 transition-opacity w-full px-4">
-            <h1 className="text-xl sm:text-[22px] font-black tracking-tight text-white text-center drop-shadow-md">
-              ढोल - ताशा - <br/><span className="text-blue-500">महासंघ</span>
-            </h1>
+          <Link href="/" className="cursor-pointer w-full">
+            <SidebarLogoText user={user} />
           </Link>
         </div>
 

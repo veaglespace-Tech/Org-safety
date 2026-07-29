@@ -71,7 +71,7 @@ export default function MemberDashboard() {
             </div>
             <div>
               <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 text-slate-950 dark:text-white tracking-tight">
-                {user?.organizations?.name || user?.organization?.name || "ढोल - ताशा - महासंघ"}
+                {user?.organizations?.name || user?.organization?.name || "ढोल - ताशा महासंघ"}
               </h2>
               <p className="text-slate-600 dark:text-slate-300 max-w-xl text-base sm:text-lg leading-relaxed font-medium">
                 Check out your organization's updates, view your team members, and manage your attendance securely.
@@ -80,72 +80,31 @@ export default function MemberDashboard() {
           </div>
         </div>
 
-        {/* Admin Referral Link Section */}
-        {(userRole === 'ORG_ADMIN') && (
-          <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm mb-8">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-              <Share2 size={20} className="text-blue-500" />
-              Organization Reference
-            </h3>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mb-4">
-              Share this link or code with your team members so they can easily join your organization.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 mb-4">
-              <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-950 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 justify-between w-full sm:w-auto">
-                <div className="flex items-center gap-3">
-                  <span className="text-slate-500 text-sm font-bold uppercase tracking-wider">Code:</span>
-                  <span className="font-mono text-blue-600 dark:text-blue-400 font-bold text-lg">{referralCode || 'Loading...'}</span>
-                </div>
-                <button
-                  onClick={handleCopyCode}
-                  className="flex items-center justify-center p-2 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg transition-colors ml-4"
-                  title="Copy Referral Code"
-                >
-                  {codeCopied ? <Check size={18} /> : <Copy size={18} />}
-                </button>
-              </div>
-            </div>
-            
-            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
-              <div className="flex-1 flex items-center bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 px-4 py-3 overflow-hidden">
-                <span className="text-slate-600 dark:text-slate-300 truncate text-sm font-medium">
-                  {origin ? referralLink : 'Loading link...'}
-                </span>
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleCopyLink}
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-bold text-sm transition-colors"
-                >
-                  {copied ? <Check size={18} className="text-green-500" /> : <Copy size={18} />}
-                  {copied ? 'Copied' : 'Copy'}
-                </button>
-                
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-green-50 hover:bg-green-100 dark:bg-green-500/10 dark:hover:bg-green-500/20 text-green-600 dark:text-green-400 rounded-xl font-bold text-sm transition-colors"
-                >
-                  <MessageCircle size={18} />
-                  WhatsApp
-                </a>
-                
-                <a
-                  href={emailUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-50 hover:bg-blue-100 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-xl font-bold text-sm transition-colors"
-                >
-                  <Mail size={18} />
-                  Email
-                </a>
-              </div>
+        {/* Referral Link Box */}
+        <div className="surface-card rounded-[1.5rem] p-6 border border-slate-200/50 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/50 flex flex-col justify-center mb-8">
+          <h3 className="font-bold text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">Share your referral code or link</h3>
+          <div className="flex flex-col sm:flex-row gap-3 mb-3">
+            <div className="flex items-center gap-3 bg-white dark:bg-slate-950 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner inline-flex w-max">
+              <span className="text-slate-500 text-sm font-bold uppercase tracking-wider">Code:</span>
+              <span className="font-mono text-blue-600 dark:text-blue-400 font-bold">{referralCode || 'Loading...'}</span>
             </div>
           </div>
-        )}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input 
+              type="text" 
+              readOnly 
+              value={origin ? referralLink : 'Loading link...'} 
+              className="flex-1 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 outline-none font-medium text-sm shadow-inner"
+            />
+            <button 
+              onClick={handleCopyLink}
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-0.5"
+            >
+              {copied ? <Check size={18} /> : <Copy size={18} />}
+              {copied ? 'Copied!' : 'Copy Link'}
+            </button>
+          </div>
+        </div>
 
       </div>
     </div>

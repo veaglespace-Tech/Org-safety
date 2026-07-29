@@ -18,10 +18,13 @@ export default function Footer({ forceShow = false }) {
   if (!forceShow && isDashboardRoute) {
     return null;
   }
-  const orgName = user?.organizations?.name || user?.organization?.name || "ढोल - ताशा - महासंघ";
+  const orgName = user?.organizations?.name || user?.organization?.name || "ढोल - ताशा महासंघ";
 
   return (
-    <footer id="dashboard-footer" className="w-full py-2 mt-auto border-t border-border bg-background flex flex-col items-center justify-center gap-1">
+    <footer id="dashboard-footer" className="w-full py-3 mt-auto border-t border-border bg-background flex flex-col items-center justify-center gap-1.5">
+      <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-bold tracking-wide text-center px-4">
+        Powered by शिवमुद्रा ढोल ताशा पथक, पुणे
+      </p>
       <p className="text-[10px] text-slate-500 font-medium tracking-widest text-center px-4">
         All Rights Reserved. &copy; 2026 Veagle Space Technology Pvt. Ltd.
       </p>
