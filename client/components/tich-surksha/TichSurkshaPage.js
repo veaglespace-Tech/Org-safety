@@ -200,11 +200,11 @@ export default function TichSurkshaPage() {
   return (
     <div className="w-full max-w-5xl mx-auto py-8 px-4 md:px-8">
       {/* Three Top Cards Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
         
         {/* Left Card: Organization Logo */}
         <div 
-          className="bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300 items-center justify-center p-4"
+          className="col-span-1 md:order-1 bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[140px] md:min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300 items-center justify-center p-3 md:p-4"
           style={{ backgroundColor: '#ffffff' }}
         >
           {(user?.organizations?.logo || user?.organization?.logo) ? (
@@ -212,12 +212,12 @@ export default function TichSurkshaPage() {
               <img 
                 src={user?.organizations?.logo || user?.organization?.logo} 
                 alt="Organization Logo" 
-                className="w-full h-full object-contain max-h-[180px]"
+                className="w-full h-full object-contain max-h-[110px] md:max-h-[180px]"
               />
             </div>
           ) : (
-            <div className="flex-1 flex items-center justify-center p-8 bg-slate-50 w-full rounded-2xl">
-              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-300">
+            <div className="flex-1 flex items-center justify-center p-4 md:p-8 bg-slate-50 w-full rounded-2xl">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-300 md:w-20 md:h-20">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 <path d="M8 11l3 3 4-4"></path>
               </svg>
@@ -226,34 +226,34 @@ export default function TichSurkshaPage() {
         </div>
 
         {/* Center Card: Tichi Surksha Theme */}
-        <div className="bg-gradient-to-br from-orange-400 to-orange-500 rounded-3xl p-6 flex flex-col items-center justify-center shadow-[0_0_60px_rgba(249,115,22,0.3)] border border-orange-400/50 min-h-[220px] text-white relative overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
+        <div className="col-span-2 md:col-span-1 order-last md:order-2 bg-gradient-to-br from-orange-400 to-orange-500 rounded-3xl p-6 flex flex-col items-center justify-center shadow-[0_0_60px_rgba(249,115,22,0.3)] border border-orange-400/50 min-h-[200px] md:min-h-[220px] text-white relative overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
           {/* Decorative background glow */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
           <div className="absolute bottom-0 left-0 w-40 h-40 bg-orange-300/30 rounded-full blur-2xl"></div>
 
-          <div className="bg-orange-50 rounded-full w-28 h-28 mb-4 flex items-center justify-center overflow-hidden border-4 border-pink-100 shadow-[0_0_20px_rgba(255,255,255,0.4)] relative z-10 transition-transform duration-300 hover:scale-105">
+          <div className="bg-orange-50 rounded-full w-24 h-24 md:w-28 md:h-28 mb-3 md:mb-4 flex items-center justify-center overflow-hidden border-4 border-pink-100 shadow-[0_0_20px_rgba(255,255,255,0.4)] relative z-10 transition-transform duration-300 hover:scale-105">
             <img 
               src="/images/tich-surksha-woman.jpg" 
               alt="Tichi Surksha" 
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="text-3xl font-black mb-2 tracking-wider drop-shadow-md relative z-10 text-black">“तिची सुरक्षा”</h1>
-          <p className="text-sm font-bold text-black bg-white/40 px-4 py-1.5 rounded-full mt-1 shadow-inner backdrop-blur-sm border border-white/50 relative z-10">
+          <h1 className="text-2xl md:text-3xl font-black mb-1 md:mb-2 tracking-wider drop-shadow-md relative z-10 text-black">“तिची सुरक्षा”</h1>
+          <p className="text-xs md:text-sm font-bold text-black bg-white/40 px-3 py-1 md:px-4 md:py-1.5 rounded-full mt-1 shadow-inner backdrop-blur-sm border border-white/50 relative z-10">
             तिची सुरक्षा, आपली जबाबदारी
           </p>
         </div>
 
         {/* Right Card: 112 Police Shield */}
         <div 
-          className="bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300 p-4 items-center justify-center"
+          className="col-span-1 md:order-3 bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[140px] md:min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300 p-3 md:p-4 items-center justify-center"
           style={{ backgroundColor: '#ffffff' }}
         >
           <div className="w-full h-full relative flex items-center justify-center">
             <img 
               src="/images/police-shield.jpg" 
               alt="112 Maharashtra Emergency Response" 
-              className="w-full h-full object-contain max-h-[180px] mix-blend-multiply"
+              className="w-full h-full object-contain max-h-[110px] md:max-h-[180px] mix-blend-multiply"
             />
           </div>
         </div>

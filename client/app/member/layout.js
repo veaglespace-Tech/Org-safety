@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { LogOut, LayoutDashboard, ShieldAlert, UserCog, Users } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import DashboardNavbar from "@/components/layout/DashboardNavbar";
 import SidebarLogoText from "@/components/layout/SidebarLogoText";
 
 export default function MemberLayout({ children }) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -36,8 +37,16 @@ export default function MemberLayout({ children }) {
 
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-sm flex flex-col transition-all z-20">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-xl flex flex-col transition-transform duration-300 md:relative md:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex flex-col items-center justify-center h-24 border-b border-slate-200 dark:border-slate-800">
           <Link href="/" className="cursor-pointer w-full">
             <SidebarLogoText user={user} />
@@ -51,6 +60,7 @@ export default function MemberLayout({ children }) {
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={() => setIsSidebarOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 border ${
                   isActive
                     ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
@@ -67,8 +77,8 @@ export default function MemberLayout({ children }) {
         {/* Logout is now in DashboardNavbar */}
       </aside>
 
-      <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
-        <DashboardNavbar />
+      <main className="flex-1 flex flex-col h-screen overflow-hidden relative min-w-0">
+        <DashboardNavbar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
         <div className="flex-1 overflow-y-auto w-full flex flex-col relative">
           <div className="flex-1">
             {children}

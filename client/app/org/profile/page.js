@@ -200,11 +200,11 @@ export default function ProfileSettingsPage() {
         </p>
       </div>
 
-      <div className="flex p-1.5 bg-slate-200/50 dark:bg-slate-800/50 rounded-2xl mb-10 max-w-md mx-auto sm:mx-0 shadow-inner backdrop-blur-sm border border-slate-300/50 dark:border-slate-700/50">
+      <div className="flex flex-col sm:flex-row p-1.5 bg-slate-200/50 dark:bg-slate-800/50 rounded-2xl mb-10 max-w-md mx-auto sm:mx-0 shadow-inner backdrop-blur-sm border border-slate-300/50 dark:border-slate-700/50 gap-1 sm:gap-0">
         <button
           type="button"
           onClick={() => setActiveTab("profile")}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black tracking-wide text-sm transition-all duration-300 ${
+          className={`flex-1 flex items-center justify-center gap-2 py-3 px-2 sm:px-4 rounded-xl font-black tracking-wide text-xs sm:text-sm transition-all duration-300 whitespace-nowrap ${
             activeTab === "profile" 
               ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-[0_4px_15px_-3px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_15px_-3px_rgba(0,0,0,0.3)]" 
               : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
@@ -216,7 +216,7 @@ export default function ProfileSettingsPage() {
         <button
           type="button"
           onClick={() => setActiveTab("org")}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black tracking-wide text-sm transition-all duration-300 ${
+          className={`flex-1 flex items-center justify-center gap-2 py-3 px-2 sm:px-4 rounded-xl font-black tracking-wide text-xs sm:text-sm transition-all duration-300 whitespace-nowrap ${
             activeTab === "org" 
               ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-[0_4px_15px_-3px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_15px_-3px_rgba(0,0,0,0.3)]" 
               : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
@@ -347,41 +347,7 @@ export default function ProfileSettingsPage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                    City
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <MapPin className="h-5 w-5 text-slate-400" />
-                    </div>
-                    <input
-                      type="text"
-                      name="city"
-                      value={formData.city || ""}
-                      onChange={handleChange}
-                      className="block w-full pl-10 pr-3 py-3 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    />
-                  </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                    Blood Group
-                  </label>
-                  <select
-                    name="bloodGroup"
-                    value={formData.bloodGroup || ""}
-                    onChange={handleChange}
-                    className="block w-full px-3 py-3 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  >
-                    <option value="" disabled>Select Blood Group</option>
-                    {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((bg) => (
-                      <option key={bg} value={bg}>{bg}</option>
-                    ))}
-                  </select>
-                </div>
-                
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                     City

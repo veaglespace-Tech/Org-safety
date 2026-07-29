@@ -2,12 +2,12 @@
 
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { logout } from "@/store/slices/authSlice";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
-export default function DashboardNavbar() {
+export default function DashboardNavbar({ onToggleSidebar }) {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -19,6 +19,17 @@ export default function DashboardNavbar() {
 
   return (
     <div className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl flex items-center justify-between px-6 sticky top-0 z-30">
+      <div className="flex items-center gap-3 md:hidden">
+        {onToggleSidebar && (
+          <button 
+            onClick={onToggleSidebar}
+            className="p-2 -ml-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            title="Toggle Sidebar"
+          >
+            <Menu size={24} />
+          </button>
+        )}
+      </div>
       <div className="flex-1"></div>
       
       <div className="flex items-center gap-2 sm:gap-4">

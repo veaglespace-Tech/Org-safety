@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { LogOut, LayoutDashboard, Building2, Users } from "lucide-react";
+import { LogOut, LayoutDashboard, Building2, Users, Menu } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/authSlice";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function SuperAdminLayout({ children }) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -34,8 +35,16 @@ export default function SuperAdminLayout({ children }) {
 
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+      
       {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-sm flex flex-col transition-all z-20">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-xl flex flex-col transition-transform duration-300 md:relative md:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="p-6 pb-2 border-b border-slate-800/50">
           <h1 className="text-xl font-black tracking-tight text-white flex items-center gap-2">
             <span className="bg-rose-600 p-1.5 rounded-lg text-white">S</span>
@@ -60,6 +69,7 @@ export default function SuperAdminLayout({ children }) {
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={() => setIsSidebarOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 font-semibold group ${
                   isActive
                     ? "bg-rose-500 text-white shadow-md shadow-rose-500/20"
@@ -91,8 +101,14 @@ export default function SuperAdminLayout({ children }) {
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Header (Mobile menu trigger could go here if added later) */}
-        <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-6 lg:hidden">
+        {/* Header */}
+        <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-6 md:hidden gap-4 sticky top-0 z-30">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="p-2 -ml-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            >
+              <Menu size={24} />
+            </button>
             <span className="font-bold text-slate-800 dark:text-white">Super Admin</span>
         </header>
 

@@ -48,13 +48,13 @@ export default function MemberDashboard() {
         <div className="page-shell-orb-primary absolute left-[-6%] top-24 h-80 w-80 rounded-full blur-[120px]" />
         <div className="page-shell-orb-secondary absolute right-[-8%] top-36 h-72 w-72 rounded-full blur-[120px]" />
       </div>
-      
+
       {/* Main Content Area */}
       <div className="flex-1 w-full relative z-10">
-        
+
         {/* Organization Banner Section */}
         <div className="surface-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 mb-8 border border-slate-200/50 dark:border-slate-800/50">
-          <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+          <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-center gap-5 text-center sm:text-left">
             <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white dark:bg-slate-800 p-1 shadow-lg border border-slate-200/60 dark:border-slate-700 flex items-center justify-center shrink-0 overflow-hidden">
               {user?.organizations?.logo || user?.organization?.logo ? (
                 <img
@@ -87,13 +87,13 @@ export default function MemberDashboard() {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <input 
-              type="text" 
-              readOnly 
-              value={origin ? referralLink : 'Loading link...'} 
+            <input
+              type="text"
+              readOnly
+              value={origin ? referralLink : 'Loading link...'}
               className="flex-1 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 outline-none font-medium text-sm shadow-inner"
             />
-            <button 
+            <button
               onClick={handleCopyLink}
               className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-0.5"
             >

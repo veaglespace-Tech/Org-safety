@@ -21,7 +21,56 @@ export default function SuperAdminOrganizations() {
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Mobile View */}
+        <div className="md:hidden flex flex-col gap-4 p-4 bg-slate-50/50 dark:bg-slate-900/20">
+          {orgs.length === 0 ? (
+            <div className="p-8 text-center text-slate-500 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
+              No organizations found.
+            </div>
+          ) : (
+            orgs.map((org) => (
+              <div
+                key={org.id}
+                onClick={() => router.push(`/super-admin/organizations/${org.id}`)}
+                className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden transition-all hover:shadow-md cursor-pointer active:scale-[0.98]"
+              >
+                <div className="p-4 flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 flex items-center justify-center shrink-0 border border-blue-200 dark:border-blue-500/20">
+                    {org.logo ? (
+                      <img src={org.logo} alt={org.name} className="w-full h-full object-cover rounded-lg" />
+                    ) : (
+                      <Building2 size={24} />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-slate-900 dark:text-white text-base truncate">{org.name}</h3>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-1">
+                      <MapPin size={12} className="shrink-0" />
+                      <span className="truncate">{org.city}, {org.state}</span>
+                    </div>
+                  </div>
+                  <ChevronRight size={18} className="text-slate-400 shrink-0 mt-1" />
+                </div>
+                <div className="px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2 text-xs">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                      <Mail size={14} className="text-slate-400" />
+                      <span className="truncate max-w-[150px]">{org.email}</span>
+                    </div>
+                    <span className="text-slate-400 font-medium">{new Date(org.created_at).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                    <Phone size={14} className="text-slate-400" />
+                    {org.phone}
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-sm font-semibold text-slate-600 dark:text-slate-300">
