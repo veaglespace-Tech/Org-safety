@@ -51,9 +51,6 @@ export default function MemberDashboard() {
       
       {/* Main Content Area */}
       <div className="flex-1 w-full relative z-10">
-        <div className="flex items-center gap-5 mb-6">
-          <h1 className="text-3xl font-black text-slate-950 dark:text-white tracking-tight">{displayRole} Dashboard</h1>
-        </div>
         
         {/* Organization Banner Section */}
         <div className="surface-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 mb-8 border border-slate-200/50 dark:border-slate-800/50">
