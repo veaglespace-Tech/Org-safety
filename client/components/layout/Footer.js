@@ -21,7 +21,7 @@ export default function Footer({ forceShow = false }) {
   const orgName = user?.organizations?.name || user?.organization?.name || "ढोल - ताशा महासंघ";
 
   return (
-    <footer id="dashboard-footer" className="w-full py-4 mt-auto border-t border-border bg-background flex flex-col items-center justify-center gap-2 overflow-hidden">
+    <footer id="dashboard-footer" className="w-full pt-4 pb-6 mt-auto border-t border-border bg-background flex flex-col items-center justify-center gap-2 shrink-0">
       <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-bold tracking-wide text-center px-4 w-full">
         Powered By - &quot;शिवमुद्रा ढोल ताशा पथक,पुणे&quot;
       </p>
