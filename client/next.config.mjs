@@ -8,11 +8,6 @@ const __dirname = path.dirname(__filename);
 const nextConfig = {
   allowedDevOrigins: ['tichisuraksha.veaglespace.com'],
   reactCompiler: true,
-  experimental: {
-    turbopack: {
-      root: __dirname,
-    },
-  },
 };
 
 export default nextConfig;
