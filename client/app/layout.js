@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
@@ -9,6 +10,7 @@ import RegistrationDraftLifecycle from "@/components/register/RegistrationDraftL
 import GlobalErrorToast from "@/components/ui/GlobalErrorToast";
 import Footer from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
+
 export const metadata = {
   title: "ढोल - ताशा महासंघ - Attendance Management Simplified",
   description: "Modern multi-tenant attendance management system for organizations.",
@@ -50,7 +52,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
+        <Script id="theme-bootstrap" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased transition-colors duration-300">
         <ThemeProvider>

@@ -3,16 +3,46 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetMembersQuery } from "@/services/api/authApi";
+import { useDeleteOrgUserMutation } from "@/services/api/orgApi";
 import { Copy, CheckCircle2, Users, Calendar, Shield, Bell, ChevronRight, Activity, User, Building2 } from "lucide-react";
 import Link from "next/link";
+import UserDetailsModal from "@/components/org/UserDetailsModal";
+import UserModal from "@/components/org/UserModal";
+import { toast } from "react-hot-toast";
 
 export default function OrgDashboard() {
   const { user } = useSelector((state) => state.auth);
-  const { data, isLoading } = useGetMembersQuery();
+  const { data, isLoading, refetch } = useGetMembersQuery();
+  const [deleteOrgUser] = useDeleteOrgUserMutation();
+  
   const [copied, setCopied] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [editingMember, setEditingMember] = useState(null);
+
+  const handleEdit = (member) => {
+    setSelectedMember(null);
+    setEditingMember(member);
+  };
+
+  const handleDelete = async (member) => {
+    if (!user || member?.id === user?.id) {
+      toast.error("You cannot delete yourself.");
+      return;
+    }
+    if (window.confirm(`Are you sure you want to delete ${member?.name}?`)) {
+      try {
+        await deleteOrgUser(member.id).unwrap();
+        toast.success("User deleted successfully");
+        setSelectedMember(null);
+        refetch();
+      } catch (err) {
+        toast.error(err?.data?.error || "Failed to delete user");
+      }
+    }
+  };
 
   // Generate referral link using the organization ID
-  const referralCode = user?.organization_id ? `REF-${String(user.organization_id).padStart(8, '0')}` : '';
+  const referralCode = user?.organization_id ? `REF-${String(user?.organization_id).padStart(8, '0')}` : '';
   const referralLink = typeof window !== 'undefined' && referralCode
     ? `${process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin}/register/user?ref=${referralCode}` 
     : '';
@@ -129,10 +159,16 @@ export default function OrgDashboard() {
 
         {/* Members Table */}
         <div className="surface-card rounded-[2rem] border border-slate-200/50 dark:border-slate-800/50 overflow-hidden">
-          <div className="px-8 py-6 border-b border-slate-200/50 dark:border-slate-800/50 flex justify-between items-center">
+          <div className="px-8 py-6 border-b border-slate-200/50 dark:border-slate-800/50 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-lg font-bold text-slate-950 dark:text-white flex items-center gap-2">
               <Users size={20} className="text-blue-500"/> Organization Members
             </h2>
+            <button 
+              onClick={() => { setSelectedMember(null); setEditingMember({}); }}
+              className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-600/20 text-sm whitespace-nowrap self-start sm:self-auto"
+            >
+              + Add Member
+            </button>
           </div>
           
           <div className="overflow-x-auto">
@@ -159,24 +195,30 @@ export default function OrgDashboard() {
                     </td>
                   </tr>
                 ) : (
-                  members.map((member) => (
-                    <tr key={member.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
-                      <td className="px-8 py-5 font-bold text-slate-950 dark:text-white text-base">{member.name}</td>
+                  members.map((member, idx) => (
+                    <tr 
+                      key={member?.id || idx} 
+                      className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors cursor-pointer"
+                      onClick={() => member && setSelectedMember(member)}
+                    >
+                      <td className="px-8 py-5 font-bold text-slate-950 dark:text-white text-base">{member?.name || 'Unknown'}</td>
                       <td className="px-8 py-5">
-                        <div className="font-medium text-slate-700 dark:text-slate-300">{member.email}</div>
-                        <div className="text-xs font-medium text-slate-500 dark:text-slate-500">{member.phone || 'No phone'}</div>
+                        <div className="font-medium text-slate-700 dark:text-slate-300">{member?.email || ''}</div>
+                        <div className="text-xs font-medium text-slate-500 dark:text-slate-500">{member?.phone || 'No phone'}</div>
                       </td>
                       <td className="px-8 py-5">
-                        <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
-                          member.role === 'admin' 
-                            ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-300' 
-                            : 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300'
-                        }`}>
-                          {member.role}
-                        </span>
+                        {member?.role && (
+                          <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                            member.role === 'admin' 
+                              ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-300' 
+                              : 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300'
+                          }`}>
+                            {member.role}
+                          </span>
+                        )}
                       </td>
                       <td className="px-8 py-5 text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
-                        {new Date(member.created_at).toLocaleDateString()}
+                        {member?.created_at ? new Date(member.created_at).toLocaleDateString() : ''}
                       </td>
                     </tr>
                   ))
@@ -186,6 +228,20 @@ export default function OrgDashboard() {
           </div>
         </div>
       </div>
+      
+      <UserDetailsModal 
+        isOpen={!!selectedMember} 
+        onClose={() => setSelectedMember(null)} 
+        user={selectedMember} 
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+
+      <UserModal 
+        isOpen={!!editingMember}
+        onClose={() => { setEditingMember(null); refetch(); }}
+        user={editingMember}
+      />
     </div>
   );
 }

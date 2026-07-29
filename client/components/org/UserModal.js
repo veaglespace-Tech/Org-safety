@@ -11,10 +11,15 @@ const userSchema = z.object({
   phone: z.string().optional().nullable(),
   emergency_contact: z.string().optional().nullable(),
   role: z.enum(["admin", "member"]).default("member"),
+  city: z.string().optional().nullable(),
+  gender: z.string().optional().nullable(),
+  blood_group: z.string().optional().nullable(),
+  current_address: z.string().optional().nullable(),
+  permanent_address: z.string().optional().nullable(),
 });
 
 export default function UserModal({ isOpen, onClose, user = null }) {
-  const isEditing = !!user;
+  const isEditing = !!user?.id;
   
   const [createUser, { isLoading: isCreating }] = useCreateOrgUserMutation();
   const [updateUser, { isLoading: isUpdating }] = usePatchOrgUserMutation();
@@ -34,6 +39,11 @@ export default function UserModal({ isOpen, onClose, user = null }) {
       phone: "",
       emergency_contact: "",
       role: "member",
+      city: "",
+      gender: "",
+      blood_group: "",
+      current_address: "",
+      permanent_address: "",
     }
   });
 
@@ -46,6 +56,11 @@ export default function UserModal({ isOpen, onClose, user = null }) {
           phone: user.phone || "",
           emergency_contact: user.emergency_contact || "",
           role: user.role === "admin" || user.role === "ORG_ADMIN" || user.role === "SUPER_ADMIN" ? "admin" : "member",
+          city: user.city || "",
+          gender: user.gender || "",
+          blood_group: user.blood_group || "",
+          current_address: user.current_address || "",
+          permanent_address: user.permanent_address || "",
         });
       } else {
         reset({
@@ -54,6 +69,11 @@ export default function UserModal({ isOpen, onClose, user = null }) {
           phone: "",
           emergency_contact: "",
           role: "member",
+          city: "",
+          gender: "",
+          blood_group: "",
+          current_address: "",
+          permanent_address: "",
         });
       }
     }
@@ -96,7 +116,7 @@ export default function UserModal({ isOpen, onClose, user = null }) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
           <div>
             <label className={labelClass}>Full Name</label>
             <input type="text" {...register("name")} className={inputClass} placeholder="John Doe" />
@@ -118,6 +138,46 @@ export default function UserModal({ isOpen, onClose, user = null }) {
               <label className={labelClass}>Emergency Contact</label>
               <input type="text" {...register("emergency_contact")} className={inputClass} placeholder="+1234567890" />
             </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className={labelClass}>City</label>
+              <input type="text" {...register("city")} className={inputClass} placeholder="City" />
+            </div>
+            <div>
+              <label className={labelClass}>Gender</label>
+              <select {...register("gender")} className={inputClass}>
+                <option value="">Select</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Blood Group</label>
+              <select {...register("blood_group")} className={inputClass}>
+                <option value="">Select</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className={labelClass}>Current Address</label>
+            <input type="text" {...register("current_address")} className={inputClass} placeholder="Current Address" />
+          </div>
+
+          <div>
+            <label className={labelClass}>Permanent Address</label>
+            <input type="text" {...register("permanent_address")} className={inputClass} placeholder="Permanent Address" />
           </div>
 
           <div>

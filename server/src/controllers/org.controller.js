@@ -31,6 +31,12 @@ exports.getMembers = async (req, res) => {
         phone: true,
         emergency_contact: true,
         created_at: true,
+        city: true,
+        gender: true,
+        blood_group: true,
+        current_address: true,
+        permanent_address: true,
+        profile_photo: true,
       },
       orderBy: {
         created_at: 'desc'
@@ -141,7 +147,7 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { name, email, phone, emergency_contact, role } = req.body;
+    const { name, email, phone, emergency_contact, role, city, gender, blood_group, current_address, permanent_address } = req.body;
     
     if (req.user.role !== 'admin') {
       return res.status(403).json({ error: "Only admins can update users." });
@@ -161,7 +167,7 @@ exports.updateUser = async (req, res) => {
 
     const updatedUser = await prisma.users.update({
       where: { id: parseInt(userId) },
-      data: { name, email, phone, emergency_contact, role }
+      data: { name, email, phone, emergency_contact, role, city, gender, blood_group, current_address, permanent_address }
     });
 
     const { password_hash: _, ...userWithoutPassword } = updatedUser;
