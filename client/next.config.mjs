@@ -6,7 +6,7 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ['195.35.21.96'],
+  allowedDevOrigins: ['tichisuraksha.veaglespace.com'],
   reactCompiler: true,
   experimental: {
     turbopack: {
