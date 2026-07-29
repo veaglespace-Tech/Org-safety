@@ -22,8 +22,8 @@ export default function OrgLayout({ children }) {
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 dark:bg-slate-900 border-r border-slate-800 flex flex-col transition-all z-20">
-        <div className="flex flex-col items-center justify-center h-24 border-b border-slate-800/80">
+      <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-sm flex flex-col transition-all z-20">
+        <div className="flex flex-col items-center justify-center h-24 border-b border-slate-200 dark:border-slate-800">
           <Link href="/" className="cursor-pointer w-full">
             <SidebarLogoText user={user} />
           </Link>
@@ -36,13 +36,13 @@ export default function OrgLayout({ children }) {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 border ${
                   isActive
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
-                    : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 text-white shadow-md shadow-blue-500/20 border-transparent hover:shadow-lg hover:-translate-y-0.5"
+                    : "border-transparent text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1"
                 }`}
               >
-                <item.icon size={20} className={isActive ? "text-white" : "text-slate-400"} />
+                <item.icon size={20} className={isActive ? "text-white drop-shadow-sm" : "text-slate-400 dark:text-slate-500 group-hover:text-blue-500 transition-colors"} />
                 {item.name}
               </Link>
             );
@@ -65,3 +65,5 @@ export default function OrgLayout({ children }) {
     </div>
   );
 }
+
+

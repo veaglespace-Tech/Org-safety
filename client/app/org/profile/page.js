@@ -187,58 +187,67 @@ export default function ProfileSettingsPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
-          <User className="w-8 h-8 text-blue-600" />
-          Settings
+    <div className="max-w-5xl mx-auto p-4 sm:p-6 md:p-10 relative">
+      <div className="mb-10 text-center sm:text-left">
+        <h1 className="text-3xl sm:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 tracking-tight flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-4">
+          <div className="p-4 bg-indigo-100/80 dark:bg-indigo-900/30 rounded-[1.5rem] text-indigo-600 dark:text-indigo-400 shadow-[0_8px_30px_-5px_rgba(99,102,241,0.2)]">
+            <User className="w-8 h-8 sm:w-10 sm:h-10" strokeWidth={2.5} />
+          </div>
+          Account Settings
         </h1>
-        <p className="text-slate-500 mt-2">
-          Update your profile information and system settings.
+        <p className="text-slate-500 dark:text-slate-400 mt-4 text-base sm:text-lg font-bold tracking-wide">
+          Update your personal details, organization info, and system preferences.
         </p>
       </div>
 
-      <div className="modern-tab-list mb-8 max-w-lg mx-auto">
+      <div className="flex p-1.5 bg-slate-200/50 dark:bg-slate-800/50 rounded-2xl mb-10 max-w-md mx-auto sm:mx-0 shadow-inner backdrop-blur-sm border border-slate-300/50 dark:border-slate-700/50">
         <button
           type="button"
           onClick={() => setActiveTab("profile")}
-          className={`modern-tab-btn ${
-            activeTab === "profile" ? "modern-tab-active" : "modern-tab-inactive"
+          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black tracking-wide text-sm transition-all duration-300 ${
+            activeTab === "profile" 
+              ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-[0_4px_15px_-3px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_15px_-3px_rgba(0,0,0,0.3)]" 
+              : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
           }`}
         >
-          <User className="w-4 h-4" />
-          Admin Profile
+          <User className="w-4 h-4" strokeWidth={3} />
+          ADMIN PROFILE
         </button>
         <button
           type="button"
           onClick={() => setActiveTab("org")}
-          className={`modern-tab-btn ${
-            activeTab === "org" ? "modern-tab-active" : "modern-tab-inactive"
+          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black tracking-wide text-sm transition-all duration-300 ${
+            activeTab === "org" 
+              ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-[0_4px_15px_-3px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_15px_-3px_rgba(0,0,0,0.3)]" 
+              : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
           }`}
         >
-          <Building2 className="w-4 h-4" />
-          Organization
+          <Building2 className="w-4 h-4" strokeWidth={3} />
+          ORGANIZATION
         </button>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-200/40 via-purple-200/40 to-rose-200/40 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-rose-900/30 rounded-[3rem] blur-2xl opacity-70"></div>
+        <div className="relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl rounded-[3rem] p-6 sm:p-10 md:p-12 border border-white/60 dark:border-slate-800 shadow-[0_8px_40px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_40px_rgb(0,0,0,0.3)]">
         <form onSubmit={handleSubmit} className="space-y-6">
           
           {activeTab === "profile" && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
               
               {/* Profile Photo Uploader */}
-              <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6">
+              <div className="flex flex-col items-center sm:flex-row sm:items-start gap-8 bg-slate-50/50 dark:bg-slate-800/30 p-6 rounded-[2rem] border border-slate-200/50 dark:border-slate-700/50 mb-8 shadow-sm hover:shadow-md transition-shadow">
                 <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
-                  <div className="w-24 h-24 rounded-full border-4 border-white dark:border-slate-800 shadow-lg overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                  <div className="w-32 h-32 rounded-[1.5rem] border-4 border-white dark:border-slate-900 ring-[6px] ring-indigo-50 dark:ring-indigo-500/10 shadow-[0_15px_35px_-5px_rgba(0,0,0,0.15)] overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center transition-all duration-500 group-hover:scale-105 group-hover:-rotate-3 group-hover:ring-indigo-100 dark:group-hover:ring-indigo-500/30">
                     {formData.profilePhoto ? (
                       <img src={formData.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
                     ) : (
-                      <User className="w-10 h-10 text-slate-400" />
+                      <User className="w-12 h-12 text-slate-400 group-hover:text-indigo-500 transition-colors" />
                     )}
                   </div>
-                  <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Camera className="w-6 h-6 text-white" />
+                  <div className="absolute inset-0 bg-indigo-900/50 rounded-[1.5rem] flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-[2px]">
+                    <Camera className="w-8 h-8 text-white scale-75 group-hover:scale-100 transition-transform duration-300 mb-1" />
+                    <span className="text-white text-xs font-bold tracking-widest uppercase">Upload</span>
                   </div>
                   <input
                     type="file"
@@ -249,15 +258,15 @@ export default function ProfileSettingsPage() {
                   />
                 </div>
                 <div className="text-center sm:text-left pt-2">
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Profile Picture</h3>
-                  <p className="text-sm text-slate-500 mt-1">Upload a new avatar. JPG, PNG or GIF (Max 2MB).</p>
-                  <button type="button" onClick={() => fileInputRef.current?.click()} className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400">
-                    Change Photo
+                  <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Profile Picture</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium max-w-[250px] leading-relaxed">
+                    Make sure the image is high resolution. JPG, PNG or GIF (Max 2MB).
+                  </p>
+                  <button type="button" onClick={() => fileInputRef.current?.click()} className="mt-5 px-6 py-2.5 rounded-xl text-sm font-black tracking-wide text-white bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-[0_5px_15px_rgba(0,0,0,0.2)] dark:shadow-[0_5px_15px_rgba(255,255,255,0.2)] hover:shadow-lg transition-all active:scale-95 border-2 border-transparent hover:border-slate-400">
+                    CHOOSE PHOTO
                   </button>
                 </div>
               </div>
-
-              <hr className="border-slate-200 dark:border-slate-800" />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -664,23 +673,24 @@ export default function ProfileSettingsPage() {
             
             <button
               type="submit"
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+              disabled={isLoading || isOrgLoading}
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-3.5 rounded-2xl font-black tracking-wide transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_5px_20px_rgba(99,102,241,0.4)] hover:shadow-[0_8px_25px_rgba(99,102,241,0.5)] hover:-translate-y-0.5"
             >
-              {isLoading ? (
+              {(isLoading || isOrgLoading) ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Saving...
+                  <Loader2 className="w-5 h-5 animate-spin" strokeWidth={3} />
+                  SAVING...
                 </>
               ) : (
                 <>
-                  <Save className="w-5 h-5" />
-                  Save Changes
+                  <Save className="w-5 h-5" strokeWidth={2.5} />
+                  SAVE CHANGES
                 </>
               )}
             </button>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ export default function SuperAdminLayout({ children }) {
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 dark:bg-slate-900 border-r border-slate-800 flex flex-col transition-all z-20">
+      <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-sm flex flex-col transition-all z-20">
         <div className="p-6 pb-2 border-b border-slate-800/50">
           <h1 className="text-xl font-black tracking-tight text-white flex items-center gap-2">
             <span className="bg-rose-600 p-1.5 rounded-lg text-white">S</span>
@@ -63,7 +63,7 @@ export default function SuperAdminLayout({ children }) {
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 font-semibold group ${
                   isActive
                     ? "bg-rose-500 text-white shadow-md shadow-rose-500/20"
-                    : "text-slate-400 hover:text-white hover:bg-slate-800/80"
+                    : "border-transparent text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 hover:translate-x-1/80"
                 }`}
               >
                 <item.icon
@@ -104,3 +104,5 @@ export default function SuperAdminLayout({ children }) {
     </div>
   );
 }
+
+

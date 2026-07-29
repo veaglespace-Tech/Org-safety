@@ -95,18 +95,7 @@ export default function OrgDashboard() {
         {/* Organization Banner Section */}
         <div className="surface-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 mb-8 border border-slate-200/50 dark:border-slate-800/50">
           <div className="relative z-10">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-8">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white dark:bg-slate-800 p-1 shadow-lg border border-slate-200/60 dark:border-slate-700 flex items-center justify-center shrink-0 overflow-hidden">
-                {user?.organizations?.logo || user?.organization?.logo ? (
-                  <img
-                    src={user?.organizations?.logo || user?.organization?.logo}
-                    alt="Organization Logo"
-                    className="w-full h-full object-contain rounded-xl"
-                  />
-                ) : (
-                  <Building2 className="w-10 h-10 text-slate-400" />
-                )}
-              </div>
+            <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between gap-5 mb-8">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 text-slate-950 dark:text-white tracking-tight">
                   {user?.organizations?.name || user?.organization?.name || "ढोल - ताशा महासंघ"}
@@ -114,6 +103,17 @@ export default function OrgDashboard() {
                 <p className="text-slate-600 dark:text-slate-300 max-w-xl text-base sm:text-lg leading-relaxed font-medium">
                   Here you can manage your {user?.organizations?.name || user?.organization?.name || "organization's"} members and share your referral link to instantly add new people to your organization.
                 </p>
+              </div>
+              <div className="w-32 h-32 sm:w-44 sm:h-44 md:w-48 md:h-48 rounded-[2.5rem] bg-white dark:bg-slate-800 p-2 shadow-xl border border-slate-200/80 dark:border-slate-700 flex items-center justify-center shrink-0 overflow-hidden">
+                {user?.organizations?.logo || user?.organization?.logo ? (
+                  <img
+                    src={user?.organizations?.logo || user?.organization?.logo}
+                    alt="Organization Logo"
+                    className="w-full h-full object-contain rounded-2xl"
+                  />
+                ) : (
+                  <Building2 className="w-16 h-16 sm:w-20 sm:h-20 text-slate-400" />
+                )}
               </div>
             </div>
           

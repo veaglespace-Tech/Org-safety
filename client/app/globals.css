@@ -2103,4 +2103,18 @@
     animation: flipY 6s linear infinite;
     transform-style: preserve-3d;
   }
+
+  /* Global hover effects for interactive elements */
+  a, button {
+    @apply transition-all duration-300;
+  }
+  
+  /* Generic hover for cards/buttons that don't have explicit hover overrides */
+  .hover-scale {
+    @apply hover:scale-[1.02] hover:-translate-y-0.5 active:scale-95 transition-transform duration-300;
+  }
+
+  .hover-glow {
+    @apply hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300;
+  }
 }
