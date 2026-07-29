@@ -179,9 +179,9 @@ export default function ProfileSettingsPage() {
       toast.success("Profile updated successfully!");
       setTimeout(() => setStatus("idle"), 3000);
     } catch (err) {
-      console.error("Failed to update profile", err);
+      console.error("Failed to update profile", err?.message ? err.message : JSON.stringify(err));
       setStatus("error");
-      toast.error("Failed to update profile.");
+      toast.error(err?.data?.error || err?.message || "Failed to update profile.");
       setTimeout(() => setStatus("idle"), 3000);
     }
   };

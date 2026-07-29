@@ -50,14 +50,14 @@ export default function OrgDashboard() {
   const members = data?.members || [];
 
   return (
-    <div className="page-shell relative min-h-screen px-4 md:px-8 py-8 transition-colors duration-500 flex flex-col lg:flex-row gap-8">
+    <div className="page-shell relative min-h-screen px-4 md:px-8 py-8 transition-colors duration-500">
       {/* Background decorative orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="page-shell-orb-primary absolute left-[-6%] top-24 h-80 w-80 rounded-full blur-[120px]" />
         <div className="page-shell-orb-secondary absolute right-[-8%] top-36 h-72 w-72 rounded-full blur-[120px]" />
       </div>
 
-      <div className="flex-1 max-w-6xl w-full mx-auto lg:mx-0 relative z-10">
+      <div className="max-w-6xl w-full mx-auto relative z-10">
         <div className="flex items-center gap-5 mb-6">
           <h1 className="text-3xl font-black text-slate-950 dark:text-white tracking-tight">Admin Dashboard</h1>
         </div>

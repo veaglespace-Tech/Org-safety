@@ -80,7 +80,8 @@ exports.registerOrganization = async (req, res) => {
         gender: result.newUser.gender,
         bloodGroup: result.newUser.blood_group,
         currentAddress: result.newUser.current_address,
-        permanentAddress: result.newUser.permanent_address
+        permanentAddress: result.newUser.permanent_address,
+        organization: result.newOrg
       }
     });
   } catch (error) {
