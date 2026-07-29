@@ -82,7 +82,8 @@ export default function TichSurkshaPage() {
         (error) => {
           console.warn("Location permission denied or unavailable:", error.message || "Unknown error");
           setLocLoading(false);
-        }
+        },
+        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
       );
     } else {
       setLocLoading(false);
