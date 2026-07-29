@@ -8,13 +8,10 @@ import SessionSync from "@/components/providers/SessionSync";
 import RegistrationDraftLifecycle from "@/components/register/RegistrationDraftLifecycle";
 import GlobalErrorToast from "@/components/ui/GlobalErrorToast";
 import Footer from "@/components/layout/Footer";
-
+import { Toaster } from "react-hot-toast";
 export const metadata = {
   title: "ढोल - ताशा - महासंघ - Attendance Management Simplified",
   description: "Modern multi-tenant attendance management system for organizations.",
-  icons: {
-    icon: "/logo1-clean.webp",
-  },
 };
 
 const THEME_BOOTSTRAP_SCRIPT = `(() => {
@@ -55,7 +52,7 @@ export default function RootLayout({ children }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
       </head>
-      <body className="min-h-screen bg-base-100 text-base-content antialiased transition-colors duration-300">
+      <body className="min-h-screen bg-background text-foreground antialiased transition-colors duration-300">
         <ThemeProvider>
           <StoreProvider>
             <SessionSync />
@@ -68,6 +65,7 @@ export default function RootLayout({ children }) {
               <Footer />
             </main>
             <GlobalErrorToast />
+            <Toaster position="bottom-right" />
           </StoreProvider>
         </ThemeProvider>
       </body>

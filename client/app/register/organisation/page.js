@@ -119,7 +119,7 @@ function OrganisationFormContent() {
 
   return (
     <RegisterFlowShell
-      badge="Step 1 of 4"
+      badge="Step 1 of 2"
       badgeIcon={ShieldCheck}
       title="Register Organization"
       description="Company profile setup"

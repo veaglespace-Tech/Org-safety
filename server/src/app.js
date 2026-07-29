@@ -16,7 +16,8 @@ app.use(cors({
   ],
   credentials: true
 }));
-app.use(express.json());
+app.use(express.json({ limit: 52428800 }));
+app.use(express.urlencoded({ limit: 52428800, extended: true }));
 app.use(cookieParser());
 
 // Basic route

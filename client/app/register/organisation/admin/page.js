@@ -227,7 +227,7 @@ export default function AdminRegistration() {
 
   return (
     <RegisterFlowShell
-      badge="Step 2 of 4"
+      badge="Step 2 of 2"
       badgeIcon={ShieldCheck}
       title="Admin Profile"
       description="Create your organization&apos;s primary administrator"

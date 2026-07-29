@@ -364,8 +364,15 @@ export const getAccessibleRoles = (user, orgId = null) => {
 
   if (targetOrgId) {
     const membership = getMembershipForOrg(user, targetOrgId);
-    if (!membership || membership.isActive === false) return [];
-    return [membership.role];
+    if (membership && membership.isActive !== false) {
+      return [membership.role];
+    }
+    
+    if (user.role) {
+      return [normalizeRole(user.role)];
+    }
+    
+    return [];
   }
 
   if (currentMembership?.isActive !== false && currentMembership?.role) {

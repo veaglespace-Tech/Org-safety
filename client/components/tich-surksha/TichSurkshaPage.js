@@ -204,19 +204,19 @@ export default function TichSurkshaPage() {
         
         {/* Left Card: Organization Logo */}
         <div 
-          className="bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300"
+          className="bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300 items-center justify-center p-4"
           style={{ backgroundColor: '#ffffff' }}
         >
           {(user?.organizations?.logo || user?.organization?.logo) ? (
-            <div className="flex-1 w-full relative overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
+            <div className="w-full h-full relative flex items-center justify-center">
               <img 
                 src={user?.organizations?.logo || user?.organization?.logo} 
                 alt="Organization Logo" 
-                className="absolute inset-0 w-full h-full object-cover scale-[1.15]"
+                className="w-full h-full object-contain max-h-[180px]"
               />
             </div>
           ) : (
-            <div className="flex-1 flex items-center justify-center p-8 bg-slate-50">
+            <div className="flex-1 flex items-center justify-center p-8 bg-slate-50 w-full rounded-2xl">
               <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-300">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 <path d="M8 11l3 3 4-4"></path>
@@ -235,25 +235,25 @@ export default function TichSurkshaPage() {
             <img 
               src="/images/tich-surksha-woman.jpg" 
               alt="Tichi Surksha" 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="text-3xl font-black mb-2 tracking-wider drop-shadow-md relative z-10">“तिची सुरक्षा”</h1>
-          <p className="text-sm font-bold text-white bg-white/20 px-4 py-1.5 rounded-full mt-1 shadow-inner backdrop-blur-sm border border-white/30 relative z-10">
+          <h1 className="text-3xl font-black mb-2 tracking-wider drop-shadow-md relative z-10 text-black">“तिची सुरक्षा”</h1>
+          <p className="text-sm font-bold text-black bg-white/40 px-4 py-1.5 rounded-full mt-1 shadow-inner backdrop-blur-sm border border-white/50 relative z-10">
             तिची सुरक्षा, आपली जबाबदारी
           </p>
         </div>
 
         {/* Right Card: 112 Police Shield */}
         <div 
-          className="bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300"
+          className="bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300 p-4 items-center justify-center"
           style={{ backgroundColor: '#ffffff' }}
         >
-          <div className="flex-1 w-full relative" style={{ backgroundColor: '#ffffff' }}>
+          <div className="w-full h-full relative flex items-center justify-center">
             <img 
               src="/images/police-shield.jpg" 
               alt="112 Maharashtra Emergency Response" 
-              className="absolute inset-0 w-full h-full object-cover mix-blend-multiply"
+              className="w-full h-full object-contain max-h-[180px] mix-blend-multiply"
             />
           </div>
         </div>
@@ -261,7 +261,7 @@ export default function TichSurkshaPage() {
       </div>
 
       {/* Main SOS Dispatch Section */}
-      <div className="bg-slate-900/80 backdrop-blur-xl border border-rose-500/30 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
+      <div className="bg-white dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-rose-500/30 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
         
         {/* Subtle background glow */}
         <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-rose-600/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
@@ -328,7 +328,7 @@ export default function TichSurkshaPage() {
               </button>
             </div>
             
-            <p className="text-slate-400 text-sm max-w-sm leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-400 text-sm max-w-sm leading-relaxed">
               {isSosActive ? `SOS mode is active. Live location updates are being sent to dispatch every ${process.env.NEXT_PUBLIC_SOS_INTERVAL_MINUTES || 5} minutes. Press Stop to cancel.` : "Clicking this button automatically dispatches an emergency email with your live location & details to your Org Admin and Support Team."}
             </p>
             {status === "error" && (
@@ -339,9 +339,9 @@ export default function TichSurkshaPage() {
           {/* Right: Direct Channels */}
           <div className="flex-1 w-full max-w-md">
             <div className="flex items-center gap-4 mb-8 w-full">
-              <div className="flex-1 h-px bg-slate-800"></div>
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-800"></div>
               <span className="text-slate-500 text-xs font-bold tracking-widest uppercase">Direct Emergency Channels</span>
-              <div className="flex-1 h-px bg-slate-800"></div>
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-800"></div>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
@@ -383,75 +383,75 @@ export default function TichSurkshaPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         
         {/* Live GPS Location */}
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-xl relative overflow-hidden">
+        <div className="bg-white dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-6 relative z-10">
             <div className="flex items-center gap-2 text-rose-500">
               <MapPin size={18} />
-              <h3 className="text-white font-bold text-sm">Live Real-Time GPS Location</h3>
+              <h3 className="text-slate-900 dark:text-white font-bold text-sm">Live Real-Time GPS Location</h3>
             </div>
             <button onClick={getLocation} className="text-rose-500 hover:text-rose-400 text-xs flex items-center gap-1 font-bold">
               <RefreshCw size={12} className={locLoading ? "animate-spin" : ""} /> Refresh
             </button>
           </div>
 
-          <div className={`border rounded-xl p-3 flex items-center justify-between mb-6 relative z-10 transition-colors ${location ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-slate-800/50 border-slate-700'}`}>
-            <div className={`flex items-center gap-2 text-sm font-bold ${location ? 'text-emerald-500' : 'text-slate-400'}`}>
+          <div className={`border rounded-xl p-3 flex items-center justify-between mb-6 relative z-10 transition-colors ${location ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20' : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700'}`}>
+            <div className={`flex items-center gap-2 text-sm font-bold ${location ? 'text-emerald-600 dark:text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
               <CheckCircle2 size={16} /> {location ? 'Live Location Locked' : 'Locating...'}
             </div>
-            {location && <span className="bg-emerald-500/20 text-emerald-400 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md">±{location.accuracy.toFixed(0)}m Accuracy</span>}
+            {location && <span className="bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md">±{location.accuracy.toFixed(0)}m Accuracy</span>}
           </div>
 
           <div className="grid grid-cols-2 gap-4 mb-6 relative z-10">
-            <div className="bg-slate-950 rounded-xl p-4 border border-slate-800">
+            <div className="bg-slate-50 dark:bg-slate-950 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
               <div className="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1">LATITUDE</div>
-              <div className="text-white font-mono font-bold text-base md:text-lg">{location ? location.lat.toFixed(6) : '---'}</div>
+              <div className="text-slate-900 dark:text-white font-mono font-bold text-base md:text-lg">{location ? location.lat.toFixed(6) : '---'}</div>
             </div>
-            <div className="bg-slate-950 rounded-xl p-4 border border-slate-800">
+            <div className="bg-slate-50 dark:bg-slate-950 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
               <div className="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1">LONGITUDE</div>
-              <div className="text-white font-mono font-bold text-base md:text-lg">{location ? location.lng.toFixed(6) : '---'}</div>
+              <div className="text-slate-900 dark:text-white font-mono font-bold text-base md:text-lg">{location ? location.lng.toFixed(6) : '---'}</div>
             </div>
           </div>
 
-          <a href={location ? `https://maps.google.com/?q=${location.lat},${location.lng}` : '#'} target={location ? "_blank" : "_self"} className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-colors relative z-10 ${location ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-slate-800/50 text-slate-500 cursor-not-allowed'}`}>
+          <a href={location ? `https://maps.google.com/?q=${location.lat},${location.lng}` : '#'} target={location ? "_blank" : "_self"} className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-colors relative z-10 ${location ? 'bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white' : 'bg-slate-100 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500 cursor-not-allowed'}`}>
             <ExternalLink size={16} /> View Live Map on Google Maps
           </a>
         </div>
 
         {/* Auto-Filled Profile */}
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-xl relative overflow-hidden">
+        <div className="bg-white dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-6 relative z-10">
             <div className="flex items-center gap-2 text-rose-500">
               <User size={18} />
-              <h3 className="text-white font-bold text-sm">Auto-Filled Profile Information</h3>
+              <h3 className="text-slate-900 dark:text-white font-bold text-sm">Auto-Filled Profile Information</h3>
             </div>
-            <span className="text-emerald-500 text-[10px] uppercase font-bold tracking-wider">Verified Profile</span>
+            <span className="text-emerald-600 dark:text-emerald-500 text-[10px] uppercase font-bold tracking-wider">Verified Profile</span>
           </div>
           
           <div className="flex items-center gap-4 mb-8 relative z-10">
-            <div className="w-16 h-16 rounded-2xl bg-slate-800 border border-slate-700 flex-shrink-0 flex items-center justify-center overflow-hidden">
-              <User size={32} className="text-slate-500" />
+            <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex-shrink-0 flex items-center justify-center overflow-hidden">
+              <User size={32} className="text-slate-400 dark:text-slate-500" />
             </div>
             <div>
-              <h4 className="text-white font-bold text-lg">{user?.name}</h4>
-              <p className="text-slate-400 text-sm mb-2">{user?.email}</p>
-              <div className="flex items-center gap-1 text-slate-400 text-[10px] uppercase font-bold tracking-wider bg-slate-800 px-2 py-1 rounded-md border border-slate-700 inline-flex">
+              <h4 className="text-slate-900 dark:text-white font-bold text-lg">{user?.name}</h4>
+              <p className="text-slate-500 dark:text-slate-400 text-sm mb-2">{user?.email}</p>
+              <div className="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-[10px] uppercase font-bold tracking-wider bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 inline-flex">
                 <Building2 size={12} /> {user?.organization?.name || "Organization"} (ID: {user?.organization_id})
               </div>
             </div>
           </div>
 
           <div className="space-y-2 relative z-10">
-            <div className="flex justify-between items-center py-3 border-b border-slate-800/50">
-              <span className="text-slate-500 text-sm">Contact Number:</span>
-              <span className="text-white font-mono">{user?.phone || 'N/A'}</span>
+            <div className="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-800/50">
+              <span className="text-slate-600 dark:text-slate-500 text-sm">Contact Number:</span>
+              <span className="text-slate-900 dark:text-white font-mono">{user?.phone || 'N/A'}</span>
             </div>
-            <div className="flex justify-between items-center py-3 border-b border-slate-800/50">
-              <span className="text-slate-500 text-sm">Emergency Contact:</span>
-              <span className="text-rose-400 font-mono">{user?.emergencyContact || 'N/A'}</span>
+            <div className="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-800/50">
+              <span className="text-slate-600 dark:text-slate-500 text-sm">Emergency Contact:</span>
+              <span className="text-rose-500 dark:text-rose-400 font-mono">{user?.emergencyContact || 'N/A'}</span>
             </div>
             <div className="flex justify-between items-center py-3">
-              <span className="text-slate-500 text-sm">System Role:</span>
-              <span className="text-white font-bold uppercase tracking-wider text-xs">{user?.role}</span>
+              <span className="text-slate-600 dark:text-slate-500 text-sm">System Role:</span>
+              <span className="text-slate-900 dark:text-white font-bold uppercase tracking-wider text-xs">{user?.role}</span>
             </div>
           </div>
         </div>
@@ -459,18 +459,20 @@ export default function TichSurkshaPage() {
       </div>
 
       {/* How it works */}
-      <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-xl mt-6 relative overflow-hidden">
-        <div className="flex items-center gap-2 text-blue-400 mb-6 relative z-10">
-          <Info size={18} />
-          <h3 className="text-white font-bold text-sm">सिस्टम कसे कार्य करते? <span className="text-slate-400 font-normal ml-1 tracking-wide">(How this feature works)</span></h3>
+      <div className="bg-white dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-[2rem] p-6 md:p-8 shadow-xl mt-6 relative overflow-hidden flex items-start gap-4">
+        <Info className="text-blue-500 flex-shrink-0 mt-1" size={24} />
+        <div>
+          <h3 className="text-slate-900 dark:text-white font-bold mb-3 flex items-center gap-2">
+            सिस्टम कसे कार्य करते? 
+            <span className="text-slate-500 dark:text-slate-400 font-normal text-sm">(How this feature works)</span>
+          </h3>
+          <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <li><span className="text-rose-500 font-bold">ऑटो-फील प्रोफाइल:</span> तुमचे नाव, ईमेल, फोन नंबर आणि संस्था (Org Name/ID) आपोआप प्रदर्शित होतात.</li>
+            <li><span className="text-rose-500 font-bold">Live GPS Location:</span> Browser Geolocation API द्वारे तुमचे अचूक अक्षांश व रेखांश मिळवून Google Maps लिंक तयार केली जाते.</li>
+            <li><span className="text-rose-500 font-bold">तात्काळ ईमेल अलर्ट:</span> SOS बटण दाबल्यावर Nodemailer द्वारे तुमचा लोकेशन Admin ला आणि Support टीमला त्वरित ईमेल पाठवला जातो.</li>
+            <li><span className="text-rose-500 font-bold">थेट कॉल व मेसेज:</span> Direct Call व WhatsApp शेअर लिंकद्वारे तुम्ही एका क्लिकवर तुमच्या जवळच्या व्यक्तींना माहिती पाठवू शकता.</li>
+          </ul>
         </div>
-        
-        <ul className="space-y-4 text-slate-300 text-sm leading-relaxed list-disc list-inside marker:text-rose-500 relative z-10">
-          <li><strong className="text-rose-400">ऑटो-फील प्रोफाइल:</strong> तुमचे नाव, ईमेल, फोन नंबर आणि संस्था (Org Name/ID) आपोआप प्रदर्शित होतात.</li>
-          <li><strong className="text-rose-400">Live GPS Location:</strong> Browser Geolocation API द्वारे तुमचे अचूक अक्षांश व रेखांश मिळवून Google Maps लिंक तयार केली जाते.</li>
-          <li><strong className="text-rose-400">तात्काळ ईमेल अलर्ट:</strong> SOS बटण दाबल्यावर Nodemailer द्वारे तुमचा लोकेशन Admin ला आणि Support टीमला त्वरित ईमेल पाठवला जातो.</li>
-          <li><strong className="text-rose-400">थेट कॉल व मेसेज:</strong> Direct Call व WhatsApp शेअर लिंकद्वारे तुम्ही एका क्लिकवर तुमच्या जवळच्या व्यक्तींना माहिती पाठवू शकता.</li>
-        </ul>
       </div>
 
     </div>

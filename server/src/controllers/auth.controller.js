@@ -1,6 +1,13 @@
 const prisma = require('../config/prisma');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const ImageKit = require('imagekit');
+
+const imagekit = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
+});
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
@@ -46,7 +53,10 @@ exports.registerOrganization = async (req, res) => {
           email: admin.email,
           password_hash: passwordHash,
           role: 'admin',
-          phone: admin.mobile
+          phone: admin.mobile,
+          city: admin.city || null,
+          gender: admin.gender || null,
+          blood_group: admin.bloodGroup || null
         }
       });
 
@@ -64,7 +74,13 @@ exports.registerOrganization = async (req, res) => {
         name: result.newUser.name,
         email: result.newUser.email,
         role: result.newUser.role,
-        organization_id: result.newUser.organization_id
+        organization_id: result.newUser.organization_id,
+        profilePhoto: result.newUser.profile_photo,
+        city: result.newUser.city,
+        gender: result.newUser.gender,
+        bloodGroup: result.newUser.blood_group,
+        currentAddress: result.newUser.current_address,
+        permanentAddress: result.newUser.permanent_address
       }
     });
   } catch (error) {
@@ -109,6 +125,12 @@ exports.login = async (req, res) => {
         role: user.role,
         phone: user.phone,
         emergencyContact: user.emergency_contact,
+        profilePhoto: user.profile_photo,
+        city: user.city,
+        gender: user.gender,
+        bloodGroup: user.blood_group,
+        currentAddress: user.current_address,
+        permanentAddress: user.permanent_address,
         organization_id: user.organization_id,
         organization: user.organizations
       }
@@ -154,6 +176,7 @@ exports.superAdminLogin = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        profilePhoto: user.profile_photo,
       }
     });
   } catch (error) {
@@ -203,7 +226,12 @@ exports.joinOrganization = async (req, res) => {
         password_hash: passwordHash,
         role: 'member',
         phone: mobile || null,
-        emergency_contact: emergencyContact || null
+        emergency_contact: emergencyContact || null,
+        city: req.body.city || null,
+        gender: req.body.gender || null,
+        blood_group: req.body.bloodGroup || null,
+        current_address: req.body.currentAddress || null,
+        permanent_address: req.body.permanentAddress || null
       },
       include: { organizations: true }
     });
@@ -219,6 +247,12 @@ exports.joinOrganization = async (req, res) => {
         role: newUser.role,
         phone: newUser.phone,
         emergencyContact: newUser.emergency_contact,
+        profilePhoto: newUser.profile_photo,
+        city: newUser.city,
+        gender: newUser.gender,
+        bloodGroup: newUser.blood_group,
+        currentAddress: newUser.current_address,
+        permanentAddress: newUser.permanent_address,
         organization_id: newUser.organization_id,
         organization: newUser.organizations
       }
@@ -251,6 +285,12 @@ exports.getMe = async (req, res) => {
         role: user.role,
         phone: user.phone,
         emergencyContact: user.emergency_contact,
+        profilePhoto: user.profile_photo,
+        city: user.city,
+        gender: user.gender,
+        bloodGroup: user.blood_group,
+        currentAddress: user.current_address,
+        permanentAddress: user.permanent_address,
         organization_id: user.organization_id,
         organization: user.organizations
       }
@@ -263,13 +303,31 @@ exports.getMe = async (req, res) => {
 
 exports.updateMe = async (req, res) => {
   try {
-    const { name, phone, emergencyContact, email, password } = req.body;
+    const { name, phone, emergencyContact, email, password, profilePhoto, city, gender, bloodGroup, currentAddress, permanentAddress } = req.body;
     
     const updateData = {
       name,
       phone,
-      emergency_contact: emergencyContact
+      emergency_contact: emergencyContact,
+      city,
+      gender,
+      blood_group: bloodGroup,
+      current_address: currentAddress,
+      permanent_address: permanentAddress
     };
+
+    if (profilePhoto !== undefined) {
+      if (profilePhoto && profilePhoto.startsWith('data:image/')) {
+        const response = await imagekit.upload({
+          file: profilePhoto,
+          fileName: `user_${req.user.userId}_profile_${Date.now()}`,
+          folder: '/user_profiles'
+        });
+        updateData.profile_photo = response.url;
+      } else {
+        updateData.profile_photo = profilePhoto;
+      }
+    }
 
     if (email) {
       updateData.email = email;
@@ -295,6 +353,12 @@ exports.updateMe = async (req, res) => {
         role: updatedUser.role,
         phone: updatedUser.phone,
         emergencyContact: updatedUser.emergency_contact,
+        profilePhoto: updatedUser.profile_photo,
+        city: updatedUser.city,
+        gender: updatedUser.gender,
+        bloodGroup: updatedUser.blood_group,
+        currentAddress: updatedUser.current_address,
+        permanentAddress: updatedUser.permanent_address,
         organization_id: updatedUser.organization_id,
         organization: updatedUser.organizations
       }

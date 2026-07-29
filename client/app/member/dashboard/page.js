@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Shield, Bell, Calendar, ChevronRight, Share2, MessageCircle, Mail, Copy, Check } from "lucide-react";
+import { Shield, Bell, Calendar, ChevronRight, Share2, MessageCircle, Mail, Copy, Check, User, Building2 } from "lucide-react";
 import Link from "next/link";
 import { ROLE_LABELS, normalizeRole } from "@/utils/roles";
 
@@ -51,17 +51,23 @@ export default function MemberDashboard() {
       
       {/* Main Content Area */}
       <div className="flex-1 w-full relative z-10">
-        <h1 className="text-3xl font-black mb-6 text-slate-950 dark:text-white tracking-tight">{displayRole} Dashboard</h1>
+        <div className="flex items-center gap-5 mb-6">
+          <h1 className="text-3xl font-black text-slate-950 dark:text-white tracking-tight">{displayRole} Dashboard</h1>
+        </div>
         
-        {/* Organization Banner */}
+        {/* Organization Banner Section */}
         <div className="surface-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 mb-8 border border-slate-200/50 dark:border-slate-800/50">
           <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white p-2.5 shadow-lg border border-slate-200/60 flex items-center justify-center shrink-0">
-              <img
-                src={user?.organizations?.logo || user?.organization?.logo || "/logo1-clean.webp"}
-                alt="Organization Logo"
-                className="max-h-full max-w-full object-contain"
-              />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white dark:bg-slate-800 p-1 shadow-lg border border-slate-200/60 dark:border-slate-700 flex items-center justify-center shrink-0 overflow-hidden">
+              {user?.organizations?.logo || user?.organization?.logo ? (
+                <img
+                  src={user?.organizations?.logo || user?.organization?.logo}
+                  alt="Organization Logo"
+                  className="w-full h-full object-contain rounded-xl"
+                />
+              ) : (
+                <Building2 className="w-10 h-10 text-slate-400" />
+              )}
             </div>
             <div>
               <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 text-slate-950 dark:text-white tracking-tight">

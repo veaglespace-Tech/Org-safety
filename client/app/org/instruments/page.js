@@ -430,23 +430,19 @@ export default function OrgInstrumentsPage() {
         ) : null}
       </div>
 
-      <div className="flex space-x-1 rounded-xl bg-slate-100 dark:bg-slate-800/50 p-1 mb-6 max-w-md">
+      <div className="modern-tab-list mb-6 max-w-md">
         <button
           onClick={() => setActiveTab("instruments")}
-          className={`w-full rounded-lg py-2.5 text-sm font-medium leading-5 transition-colors ${
-            activeTab === "instruments"
-              ? "bg-white text-blue-900 shadow dark:bg-blue-900/60 dark:text-blue-100"
-              : "text-slate-600 hover:bg-white/[0.12] hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+          className={`modern-tab-btn ${
+            activeTab === "instruments" ? "modern-tab-active" : "modern-tab-inactive"
           }`}
         >
           Instruments
         </button>
         <button
           onClick={() => setActiveTab("members")}
-          className={`w-full rounded-lg py-2.5 text-sm font-medium leading-5 transition-colors ${
-            activeTab === "members"
-              ? "bg-white text-blue-900 shadow dark:bg-blue-900/60 dark:text-blue-100"
-              : "text-slate-600 hover:bg-white/[0.12] hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+          className={`modern-tab-btn ${
+            activeTab === "members" ? "modern-tab-active" : "modern-tab-inactive"
           }`}
         >
           Members & Assignments

@@ -281,15 +281,14 @@ export default function OrgExpensesPage() {
         </div>
       </div>
 
-      <div className="flex space-x-2 border-b border-gray-200 dark:border-slate-800">
+      <div className="modern-tab-list max-w-md">
         {["expenses", "claims", "stock"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-3 font-medium text-sm transition-colors ${activeTab === tab
-                ? "border-b-2 border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-500"
-                : "text-gray-500 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white"
-              }`}
+            className={`modern-tab-btn ${
+              activeTab === tab ? "modern-tab-active" : "modern-tab-inactive"
+            }`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>

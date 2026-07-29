@@ -30,7 +30,7 @@
   }
 
   .dark {
-    --background: 6 11 20;
+    --background: 3 7 18;
     --foreground: 226 232 240;
 
     --primary: 96 165 250;
@@ -80,10 +80,8 @@
   }
 
   .dark body {
-    background-image:
-      radial-gradient(circle at 10% 0%, rgb(var(--brand-blue) / 0.16), transparent 24%),
-      radial-gradient(circle at 88% 0%, rgb(var(--brand-sky) / 0.12), transparent 22%),
-      linear-gradient(180deg, rgb(4 9 18), rgb(7 13 24), rgb(var(--background)));
+    background-color: rgb(var(--background));
+    background-image: none;
   }
 
   * {
@@ -199,6 +197,22 @@
     font-family: var(--font-display), sans-serif;
   }
 
+  .modern-tab-list {
+    @apply flex space-x-1 rounded-[1.25rem] bg-slate-100/80 p-1.5 dark:bg-slate-800/60 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 w-full;
+  }
+  
+  .modern-tab-btn {
+    @apply flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-300;
+  }
+  
+  .modern-tab-active {
+    @apply bg-white text-blue-600 shadow-sm border border-slate-200/60 dark:bg-slate-900 dark:text-blue-400 dark:border-slate-700;
+  }
+  
+  .modern-tab-inactive {
+    @apply text-slate-600 hover:text-slate-900 hover:bg-white/50 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-700/50 border border-transparent;
+  }
+
   .brand-kicker {
     font-size: 0.68rem;
     line-height: 1rem;
@@ -239,15 +253,8 @@
   }
 
   .page-shell {
-    background:
-      radial-gradient(circle at 8% 0%, rgb(var(--brand-blue) / 0.08), transparent 28%),
-      radial-gradient(circle at 92% 4%, rgb(var(--brand-sky) / 0.06), transparent 24%),
-      linear-gradient(
-        180deg,
-        rgb(251 252 254),
-        rgb(var(--brand-surface-soft) / 0.96),
-        rgb(var(--background))
-      );
+    background-color: rgb(var(--background));
+    background-image: none;
   }
 
   .page-shell-orb-primary {

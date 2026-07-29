@@ -82,13 +82,11 @@ export default function ProfileSettingsPage() {
       </div>
 
       {isAdmin && (
-        <div className="flex space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl mb-8">
+        <div className="modern-tab-list mb-8 max-w-lg mx-auto">
           <button
             onClick={() => setActiveTab("profile")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg font-medium text-sm transition-all ${
-              activeTab === "profile" 
-                ? "bg-white dark:bg-slate-900 text-blue-600 shadow-sm" 
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            className={`modern-tab-btn ${
+              activeTab === "profile" ? "modern-tab-active" : "modern-tab-inactive"
             }`}
           >
             <User className="w-4 h-4" />
@@ -96,10 +94,8 @@ export default function ProfileSettingsPage() {
           </button>
           <button
             onClick={() => setActiveTab("org")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg font-medium text-sm transition-all ${
-              activeTab === "org" 
-                ? "bg-white dark:bg-slate-900 text-blue-600 shadow-sm" 
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            className={`modern-tab-btn ${
+              activeTab === "org" ? "modern-tab-active" : "modern-tab-inactive"
             }`}
           >
             <Building2 className="w-4 h-4" />

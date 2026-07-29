@@ -345,13 +345,12 @@ export default function TeamLeaderTeamDetailPage() {
         ) : null}
       </div>
 
-      <div className="light-glow-card-static rounded-[1.7rem] p-2 mt-8">
-        <div className={`grid gap-2 sm:grid-cols-${canAssignMembers ? "2" : "1"}`}>
+      <div className="modern-tab-list mt-8">
           <button
             type="button"
             onClick={() => setActiveTab("DETAILS")}
-            className={`brand-btn brand-btn-md justify-center rounded-[1.25rem] ${
-              activeTab === "DETAILS" ? "brand-btn-primary" : "brand-btn-secondary"
+            className={`modern-tab-btn ${
+              activeTab === "DETAILS" ? "modern-tab-active" : "modern-tab-inactive"
             }`}
           >
             <Settings size={16} />
@@ -362,15 +361,14 @@ export default function TeamLeaderTeamDetailPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("MEMBERS")}
-                className={`brand-btn brand-btn-md justify-center rounded-[1.25rem] ${
-                  activeTab === "MEMBERS" ? "brand-btn-primary" : "brand-btn-secondary"
+                className={`modern-tab-btn ${
+                  activeTab === "MEMBERS" ? "modern-tab-active" : "modern-tab-inactive"
                 }`}
               >
                 <Users size={16} />
                 Team Members
               </button>
           )}
-        </div>
       </div>
 
       <div className="mt-6">
