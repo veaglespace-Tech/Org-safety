@@ -189,9 +189,25 @@ exports.updateSOS = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const orgEmails = ['singareakshay937@gmail.com', 'singareakshay2004@gmail.com'];
+    const adminEmails = [];
+    if (process.env.GLOBAL_SOS_EMAIL) {
+      adminEmails.push(process.env.GLOBAL_SOS_EMAIL);
+    }
     
-    if (transporter && orgEmails.length > 0) {
+    const admins = await prisma.users.findMany({
+      where: {
+        organization_id: user.organization_id,
+        role: 'admin'
+      }
+    });
+
+    admins.forEach(a => {
+      if (a.email && !adminEmails.includes(a.email)) {
+        adminEmails.push(a.email);
+      }
+    });
+    
+    if (transporter && adminEmails.length > 0) {
       const updateMessage = `🚨 EMERGENCY SOS UPDATE 🚨
 
 👤 Name: ${user.name}
@@ -206,7 +222,7 @@ The user is STILL in an active emergency and has not marked themselves as safe.
 `;
       await transporter.sendMail({
         from: `"${process.env.EMAIL_FROM_NAME || 'SOS System'}" <${process.env.SMTP_USER}>`,
-        to: orgEmails.join(','),
+        to: adminEmails.join(','),
         subject: `🚨 SOS UPDATE: ${user.name} is still in danger`,
         text: updateMessage,
       });

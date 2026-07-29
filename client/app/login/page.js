@@ -13,6 +13,7 @@ import {
   Lock,
   Mail,
 } from "lucide-react";
+import toast from "react-hot-toast";
 import PasswordInput from "@/components/ui/PasswordInput";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";
 import {
@@ -127,7 +128,13 @@ export default function LoginPage() {
       router.replace(nextPath);
     } catch (err) {
       if (shouldReportUnexpectedAuthError(err)) {
-        console.error("Login failed:", getErrorMessage(err, "Unable to sign in"));
+        const errorMsg = getErrorMessage(err, "Unable to sign in");
+        console.error("Login failed:", errorMsg);
+        toast.error(errorMsg);
+      } else if (err?.data?.message) {
+        toast.error(err.data.message);
+      } else {
+        toast.error("Invalid credentials or unable to sign in.");
       }
     }
   };

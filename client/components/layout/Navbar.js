@@ -37,8 +37,6 @@ export default function Navbar() {
     pathname?.startsWith("/org") ||
     pathname?.startsWith("/member") ||
     pathname?.startsWith("/team-leader") ||
-    pathname?.startsWith("/register") ||
-    pathname?.startsWith("/login") ||
     (pathname?.startsWith("/super-admin") && pathname !== "/super-admin/login");
 
   useEffect(() => {
