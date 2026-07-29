@@ -160,7 +160,10 @@ export default function LoginPage() {
 
 
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit(onSubmit)(e);
+              }}
               autoComplete="off"
               noValidate
               className="space-y-5 sm:space-y-6"
@@ -230,6 +233,10 @@ export default function LoginPage() {
 
               <button
                 type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmit(onSubmit)();
+                }}
                 disabled={isSubmitting}
                 className="group mt-2 flex w-full items-center justify-center gap-3 rounded-3xl bg-blue-600 py-5 font-black text-white shadow-[0_28px_70px_rgba(59,130,246,0.32)] transition-all duration-500 hover:-translate-y-1 hover:bg-slate-900 hover:shadow-[0_32px_80px_rgba(15,23,42,0.24)] active:scale-95 disabled:opacity-50 dark:bg-blue-400 dark:text-slate-950 dark:shadow-[0_24px_60px_rgba(37,99,235,0.24)] dark:hover:bg-blue-300"
               >
