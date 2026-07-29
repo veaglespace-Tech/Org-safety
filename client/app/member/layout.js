@@ -36,27 +36,19 @@ export default function MemberLayout({ children }) {
     <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
       {/* Sidebar */}
       <aside className="w-64 bg-slate-900 dark:bg-slate-900 border-r border-slate-800 flex flex-col transition-all z-20">
-        <div className="p-6 pb-2 border-b border-slate-800/50">
-          <h1 className="text-xl font-black tracking-tight text-white flex items-center gap-2">
-            <span className="bg-blue-600 p-1.5 rounded-lg text-white">{displayRole.charAt(0)}</span>
-            {displayRole} Portal
-          </h1>
-          
-          <div className="mt-6 p-3.5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700/50 shadow-inner flex flex-col gap-1 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/3"></div>
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest relative z-10">Powered By</span>
-            <div className="flex items-center gap-2 relative z-10">
-              {(user?.organizations?.logo || user?.organization?.logo) && (
-                <img 
-                  src={user?.organizations?.logo || user?.organization?.logo} 
-                  alt="Org Logo" 
-                  className="w-6 h-6 rounded border border-slate-700/50 object-cover bg-white"
-                />
-              )}
-              <span className="text-sm font-bold text-blue-400 truncate tracking-wide flex-1">
-                {user?.organizations?.name || user?.organization?.name || "Pathak Name"}
-              </span>
-            </div>
+        <div className="p-5 border-b border-slate-800/80 flex items-center gap-3">
+          <div className="w-11 h-11 rounded-xl bg-white p-1.5 shadow-md flex items-center justify-center shrink-0">
+            <img
+              src={user?.organizations?.logo || user?.organization?.logo || "/logo1-clean.webp"}
+              alt="Organization Logo"
+              className="max-h-full max-w-full object-contain"
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h1 className="text-sm font-black tracking-tight text-white truncate">
+              {user?.organizations?.name || user?.organization?.name || "ढोल - ताशा - महासंघ"}
+            </h1>
+            <p className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">{displayRole} Portal</p>
           </div>
         </div>
 

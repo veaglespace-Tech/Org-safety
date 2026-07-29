@@ -63,6 +63,12 @@ export default function TichSurkshaPage() {
 
   const getLocation = () => {
     setLocLoading(true);
+    if (!window.isSecureContext) {
+      console.warn("Geolocation requires HTTPS. Location will not be attached to SOS alerts on this non-secure connection.");
+      setLocLoading(false);
+      return;
+    }
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -74,7 +80,7 @@ export default function TichSurkshaPage() {
           setLocLoading(false);
         },
         (error) => {
-          console.error("Error getting location", error);
+          console.warn("Location permission denied or unavailable:", error.message || "Unknown error");
           setLocLoading(false);
         }
       );

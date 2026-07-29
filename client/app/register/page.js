@@ -36,7 +36,7 @@ export default async function RegisterPage({ searchParams }) {
             Get Started
           </SectionEyebrow>
           <h1 className="mb-4 text-5xl font-black leading-tight tracking-tight text-slate-950 dark:text-white md:text-7xl">
-            Dhole Tasha <span className="gradient-text">Patak</span>
+            ढोल - ताशा - <span className="gradient-text">महासंघ</span>
           </h1>
           <p className="mx-auto max-w-2xl text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-300 md:text-base">
             Pick the setup that matches you, whether you are creating an organization or joining an existing team.

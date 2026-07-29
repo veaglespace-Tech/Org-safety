@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 export default function Footer() {
   const { user } = useSelector((state) => state.auth);
-  const orgName = user?.organizations?.name || user?.organization?.name || "Pathak";
+  const orgName = user?.organizations?.name || user?.organization?.name || "ढोल - ताशा - महासंघ";
 
   return (
     <footer id="dashboard-footer" className="w-full py-8 mt-auto border-t border-slate-800 bg-slate-950 flex flex-col items-center justify-center gap-4">

@@ -6,7 +6,7 @@ export default function HomeFeatureGrid() {
       <div className="site-container">
         <div className="mb-12 text-center sm:mb-16 md:mb-20">
           <h2 className="mb-4 text-2xl font-black tracking-tight text-slate-950 dark:text-white sm:text-3xl md:mb-6 md:text-5xl">
-            Why Dhole Tasha Patak?
+            Why ढोल - ताशा - महासंघ?
           </h2>
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 md:text-xs">
             Built for teams that want clarity, not complexity

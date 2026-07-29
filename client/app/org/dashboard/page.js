@@ -60,13 +60,26 @@ export default function OrgDashboard() {
       <div className="flex-1 max-w-6xl w-full mx-auto lg:mx-0 relative z-10">
         <h1 className="text-3xl font-black mb-6 text-slate-950 dark:text-white tracking-tight">Admin Dashboard</h1>
         
-        {/* Welcome Section */}
-        <div className="surface-card relative overflow-hidden rounded-[2rem] p-8 mb-8 border border-slate-200/50 dark:border-slate-800/50">
+        {/* Organization Banner Section */}
+        <div className="surface-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 mb-8 border border-slate-200/50 dark:border-slate-800/50">
           <div className="relative z-10">
-            <h2 className="text-3xl font-bold mb-3 text-slate-950 dark:text-white">Welcome back, {user?.name || "Admin"}! 👋</h2>
-            <p className="text-slate-600 dark:text-slate-300 max-w-xl text-lg leading-relaxed font-medium mb-8">
-              Here you can manage your Dhole Tasha Pathak members and share your referral link to instantly add new people to your organization.
-            </p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-8">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white p-2.5 shadow-lg border border-slate-200/60 flex items-center justify-center shrink-0">
+                <img
+                  src={user?.organizations?.logo || user?.organization?.logo || "/logo1-clean.webp"}
+                  alt="Organization Logo"
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 text-slate-950 dark:text-white tracking-tight">
+                  {user?.organizations?.name || user?.organization?.name || "ढोल - ताशा - महासंघ"}
+                </h2>
+                <p className="text-slate-600 dark:text-slate-300 max-w-xl text-base sm:text-lg leading-relaxed font-medium">
+                  Here you can manage your ढोल - ताशा - महासंघ members and share your referral link to instantly add new people to your organization.
+                </p>
+              </div>
+            </div>
           
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="surface-card rounded-[1.5rem] p-6 border border-slate-200/50 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/50 flex flex-col justify-center">

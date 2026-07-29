@@ -53,13 +53,24 @@ export default function MemberDashboard() {
       <div className="flex-1 w-full relative z-10">
         <h1 className="text-3xl font-black mb-6 text-slate-950 dark:text-white tracking-tight">{displayRole} Dashboard</h1>
         
-        {/* Welcome Banner */}
-        <div className="surface-card relative overflow-hidden rounded-[2rem] p-8 mb-8 border border-slate-200/50 dark:border-slate-800/50">
-          <div className="relative z-10">
-            <h2 className="text-3xl font-bold mb-3 text-slate-950 dark:text-white">Welcome back, {user?.name || "Member"}! 🎉</h2>
-            <p className="text-slate-600 dark:text-slate-300 max-w-xl text-lg leading-relaxed font-medium">
-              Check out your organization's updates, view your team members, and manage your attendance securely.
-            </p>
+        {/* Organization Banner */}
+        <div className="surface-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 mb-8 border border-slate-200/50 dark:border-slate-800/50">
+          <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white p-2.5 shadow-lg border border-slate-200/60 flex items-center justify-center shrink-0">
+              <img
+                src={user?.organizations?.logo || user?.organization?.logo || "/logo1-clean.webp"}
+                alt="Organization Logo"
+                className="max-h-full max-w-full object-contain"
+              />
+            </div>
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 text-slate-950 dark:text-white tracking-tight">
+                {user?.organizations?.name || user?.organization?.name || "ढोल - ताशा - महासंघ"}
+              </h2>
+              <p className="text-slate-600 dark:text-slate-300 max-w-xl text-base sm:text-lg leading-relaxed font-medium">
+                Check out your organization's updates, view your team members, and manage your attendance securely.
+              </p>
+            </div>
           </div>
         </div>
 
