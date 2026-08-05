@@ -2,8 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useTriggerSosMutation, useUpdateSosLocationMutation, useStopSosMutation } from "@/services/api/authApi";
-import { AlertTriangle, Shield, Phone, MapPin, ArrowLeft, Loader2, CheckCircle2, MessageCircle, Mail, HelpCircle, UserCheck, RefreshCw, ExternalLink, User, Building2, Info } from "lucide-react";
-import Link from "next/link";
+import { AlertTriangle, Shield, Phone, MapPin, Loader2, CheckCircle2, MessageCircle, Mail, RefreshCw, ExternalLink, User, Building2, Info } from "lucide-react";
 import { useSelector } from "react-redux";
 
 export default function TichSurkshaPage() {
@@ -14,6 +13,53 @@ export default function TichSurkshaPage() {
   const [status, setStatus] = useState("idle"); // idle, success, error
   const [isSosActive, setIsSosActive] = useState(false);
   const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const active = localStorage.getItem('isSosActive') === 'true';
+      if (active) {
+        setIsSosActive(true);
+      }
+    }
+  }, []);
+
+  // Effect to manage SOS interval based on isSosActive state
+  useEffect(() => {
+    if (isSosActive) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      const sosIntervalMinutes = parseInt(process.env.NEXT_PUBLIC_SOS_INTERVAL_MINUTES) || 1;
+      intervalRef.current = setInterval(async () => {
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            async (position) => {
+              const liveLoc = `https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`;
+              try {
+                await updateSosLocation({ locationUrl: liveLoc }).unwrap();
+              } catch (err) {
+                console.error("Failed to send recurring SOS update", err);
+              }
+            },
+            (err) => {
+              console.warn("Could not fetch high accuracy interval location", err);
+            },
+            { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+          );
+        }
+      }, sosIntervalMinutes * 60 * 1000);
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [isSosActive, updateSosLocation]);
   
   const [location, setLocation] = useState(null);
   const [locLoading, setLocLoading] = useState(false);
@@ -59,8 +105,6 @@ export default function TichSurkshaPage() {
 
   console.log("USER OBJ IN TICH:", JSON.stringify(user, null, 2));
 
-  const backLink = user?.role === 'admin' ? '/org/dashboard' : '/member/dashboard';
-
   const getLocation = () => {
     setLocLoading(true);
     if (!window.isSecureContext) {
@@ -93,43 +137,22 @@ export default function TichSurkshaPage() {
   // Get location on initial mount
   useEffect(() => {
     getLocation();
-    
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
   }, []);
 
-  const handleSosClick = async () => {
+  const handleSosClick = () => {
     try {
-      setStatus("idle");
+      setStatus("success");
+      setIsSosActive(true);
+      if (typeof window !== "undefined") {
+        localStorage.setItem('isSosActive', 'true');
+      }
+
       let locationUrl = "";
       if (location) {
         locationUrl = `https://maps.google.com/?q=${location.lat},${location.lng}`;
-      } else if ("geolocation" in navigator) {
-        // Fallback if not already loaded, though this might fail in setTimeout without user gesture
-        try {
-          locationUrl = await new Promise((resolve) => {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                resolve(`https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`);
-              },
-              (err) => {
-                console.warn("Could not fetch high accuracy location", err);
-                resolve("");
-              },
-              { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
-            );
-          });
-        } catch (err) {
-          console.warn("Geolocation fallback failed", err);
-        }
       }
 
-      const res = await triggerSos({ locationUrl }).unwrap();
-      
-      // Also open WhatsApp and Phone Dialer on the user's device directly!
+      // 1. OPEN WHATSAPP AND DIALER IMMEDIATELY (no await before this to prevent popup blockers)
       const distressMessage = `🚨 EMERGENCY SOS DISTRESS ALERT 🚨
 
 👤 Name: ${user?.name || 'Unknown'}
@@ -151,46 +174,41 @@ export default function TichSurkshaPage() {
       phoneLink.href = `tel:${user?.emergencyContact || ''}`;
       phoneLink.click();
 
-      setStatus("success");
-      setIsSosActive(true);
-      
-      // Start dynamic minute interval
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      const sosIntervalMinutes = parseInt(process.env.NEXT_PUBLIC_SOS_INTERVAL_MINUTES) || 1;
-      intervalRef.current = setInterval(async () => {
-        if ("geolocation" in navigator) {
-          navigator.geolocation.getCurrentPosition(
-            async (position) => {
-              const liveLoc = `https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`;
-              try {
-                await updateSosLocation({ locationUrl: liveLoc }).unwrap();
-              } catch (err) {
-                console.error("Failed to send recurring SOS update", err);
-              }
-            },
-            (err) => {
-              console.warn("Could not fetch high accuracy interval location", err);
-            },
-            { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
-          );
+      // 2. TRIGGER SOS EMAILS IN BACKGROUND (API CALL)
+      (async () => {
+        let apiLocationUrl = locationUrl;
+        if (!apiLocationUrl && "geolocation" in navigator) {
+          try {
+            apiLocationUrl = await new Promise((resolve) => {
+              navigator.geolocation.getCurrentPosition(
+                (position) => resolve(`https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`),
+                (err) => resolve(""),
+                { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
+              );
+            });
+          } catch (err) {}
         }
-      }, sosIntervalMinutes * 60 * 1000);
+        
+        try {
+          await triggerSos({ locationUrl: apiLocationUrl }).unwrap();
+        } catch (error) {
+          console.error("SOS trigger failed", error);
+          setStatus("error");
+        }
+      })();
 
     } catch (error) {
-      console.error("SOS trigger failed", error);
-      console.error("Error string:", String(error));
-      console.error("Error JSON:", JSON.stringify(error, Object.getOwnPropertyNames(error)));
+      console.error("Error in handleSosClick", error);
       setStatus("error");
     }
   };
 
   const handleStopSos = async () => {
     try {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
       setIsSosActive(false);
+      if (typeof window !== "undefined") {
+        localStorage.removeItem('isSosActive');
+      }
       setStatus("idle");
       await stopSos().unwrap();
     } catch (err) {

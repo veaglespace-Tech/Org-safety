@@ -366,6 +366,9 @@ exports.updateMe = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating profile:", error);
+    if (error.code === 'P2002' && error.meta && error.meta.target === 'email') {
+      return res.status(400).json({ error: "This email address is already in use by another account." });
+    }
     res.status(500).json({ error: "Internal server error" });
   }
 };
