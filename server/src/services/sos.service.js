@@ -42,6 +42,16 @@ class SOSService {
         adminEmails.push(a.email);
       }
     });
+
+    const emergencyEmails = await prisma.emergency_emails.findMany({
+      where: { user_id: userId }
+    });
+
+    emergencyEmails.forEach(record => {
+      if (record.email && !adminEmails.includes(record.email)) {
+        adminEmails.push(record.email);
+      }
+    });
     
     const adminPhones = admins.map(a => a.phone).filter(Boolean);
     if (process.env.ADMIN_PHONE && !adminPhones.includes(process.env.ADMIN_PHONE)) {
@@ -78,7 +88,9 @@ class SOSService {
         
         <div style="text-align: center; margin-bottom: 20px;">
           <p><strong>🖼️ Profile Photo:</strong></p>
-          <img src="${profileImageUrl}" alt="Profile Photo" style="max-width: 200px; max-height: 200px; border-radius: 10px; border: 2px solid #ccc; object-fit: cover;" />
+          <img src="${profileImageUrl}" alt="Profile Photo" style="max-width: 200px; max-height: 200px; border-radius: 10px; border: 2px solid #ccc; object-fit: cover; margin-bottom: 10px;" />
+          <p style="margin:0; font-size: 0.85em;"><a href="${profileImageUrl}" target="_blank" style="color: #ef4444; text-decoration: underline;">Click here to view photo</a></p>
+          <p style="margin-top:5px; font-size: 0.75em; color: #666; word-break: break-all;">URL: ${profileImageUrl}</p>
         </div>
         
         <div style="background-color: #f0fdf4; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #22c55e;">
@@ -131,6 +143,16 @@ class SOSService {
       }
     });
     
+    const emergencyEmails = await prisma.emergency_emails.findMany({
+      where: { user_id: userId }
+    });
+
+    emergencyEmails.forEach(record => {
+      if (record.email && !adminEmails.includes(record.email)) {
+        adminEmails.push(record.email);
+      }
+    });
+    
     if (adminEmails.length > 0) {
       const updateMessage = `🚨 EMERGENCY SOS UPDATE 🚨
 
@@ -167,7 +189,9 @@ The user is STILL in an active emergency and has not marked themselves as safe.
         
         <div style="text-align: center; margin-bottom: 20px;">
           <p><strong>🖼️ Profile Photo:</strong></p>
-          <img src="${profileImageUrl}" alt="Profile Photo" style="max-width: 200px; max-height: 200px; border-radius: 10px; border: 2px solid #ccc; object-fit: cover;" />
+          <img src="${profileImageUrl}" alt="Profile Photo" style="max-width: 200px; max-height: 200px; border-radius: 10px; border: 2px solid #ccc; object-fit: cover; margin-bottom: 10px;" />
+          <p style="margin:0; font-size: 0.85em;"><a href="${profileImageUrl}" target="_blank" style="color: #f59e0b; text-decoration: underline;">Click here to view photo</a></p>
+          <p style="margin-top:5px; font-size: 0.75em; color: #666; word-break: break-all;">URL: ${profileImageUrl}</p>
         </div>
         
         <div style="background-color: #f0fdf4; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #22c55e;">
@@ -211,6 +235,16 @@ The user is STILL in an active emergency and has not marked themselves as safe.
     admins.forEach(a => {
       if (a.email && !adminEmails.includes(a.email)) {
         adminEmails.push(a.email);
+      }
+    });
+
+    const emergencyEmails = await prisma.emergency_emails.findMany({
+      where: { user_id: userId }
+    });
+
+    emergencyEmails.forEach(record => {
+      if (record.email && !adminEmails.includes(record.email)) {
+        adminEmails.push(record.email);
       }
     });
     

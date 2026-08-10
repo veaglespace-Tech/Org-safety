@@ -223,17 +223,15 @@ export default function TichSurkshaPage() {
         
         {/* Left Card: Organization Logo */}
         <div 
-          className="col-span-1 md:order-1 bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[140px] md:min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300 items-center justify-center p-3 md:p-4"
+          className="col-span-1 md:order-1 bg-white rounded-3xl flex flex-col shadow-lg border border-slate-200/60 min-h-[140px] md:min-h-[220px] overflow-hidden relative transform hover:-translate-y-1 transition-all duration-300"
           style={{ backgroundColor: '#ffffff' }}
         >
           {(user?.organizations?.logo || user?.organization?.logo) ? (
-            <div className="w-full h-full relative flex items-center justify-center">
-              <img 
-                src={user?.organizations?.logo || user?.organization?.logo} 
-                alt="Organization Logo" 
-                className="w-full h-full object-contain max-h-[110px] md:max-h-[180px]"
-              />
-            </div>
+            <img 
+              src={user?.organizations?.logo || user?.organization?.logo} 
+              alt="Organization Logo" 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           ) : (
             <div className="flex-1 flex items-center justify-center p-4 md:p-8 bg-slate-50 w-full rounded-2xl">
               <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-300 md:w-20 md:h-20">
