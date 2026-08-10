@@ -163,12 +163,9 @@ export default function TichSurkshaPage() {
 📍 LATEST LIVE LOCATION: ${locationUrl || 'Not available'}
 `;
       
-      const emContactStr = user?.emergencyContact ? String(user.emergencyContact) : '';
-      const whatsappNumber = emContactStr ? emContactStr.replace(/\D/g, '') : '';
-      if (whatsappNumber) {
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(distressMessage)}`;
-        window.open(whatsappUrl, '_blank');
-      }
+      // Open WhatsApp contact picker so the user can select multiple contacts (including their emergency contact)
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(distressMessage)}`;
+      window.open(whatsappUrl, '_blank');
 
       const phoneLink = document.createElement("a");
       phoneLink.href = `tel:${user?.emergencyContact || ''}`;
