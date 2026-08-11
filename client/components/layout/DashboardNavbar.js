@@ -4,6 +4,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { LogOut, User, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { logout } from "@/store/slices/authSlice";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
@@ -30,7 +31,10 @@ export default function DashboardNavbar({ onToggleSidebar }) {
           </button>
         )}
       </div>
-      <div className="flex-1"></div>
+      <div className="flex-1 flex items-center justify-center gap-6">
+        <Link href="/privacy-policy" className="text-sm font-bold text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors hidden sm:block">Privacy Policy</Link>
+        <Link href="/contact" className="text-sm font-bold text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors hidden sm:block">Contact Us</Link>
+      </div>
       
       <div className="flex items-center gap-2 sm:gap-4">
         <ThemeToggle />

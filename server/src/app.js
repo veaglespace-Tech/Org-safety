@@ -31,11 +31,13 @@ const orgRoutes = require('./routes/org');
 const sosRoutes = require('./routes/sos');
 const superAdminRoutes = require('./routes/super_admin.routes');
 const emergencyEmailsRoutes = require('./routes/emergencyEmails.routes');
+const contactRoutes = require('./routes/contact.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/org', orgRoutes);
 app.use('/api/sos', sosRoutes);
 app.use('/api/super-admin', superAdminRoutes);
 app.use('/api/emergency-emails', emergencyEmailsRoutes);
+app.use('/api/contact', contactRoutes);
 
 module.exports = app;

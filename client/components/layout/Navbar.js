@@ -14,7 +14,8 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 import { formatRoleLabel, resolveDashboardPath } from "@/utils/roles";
 
 const NAV_LINKS = [
-  { href: "/privacy-policy", label: "Privacy Policy" }
+  { href: "/privacy-policy", label: "Privacy Policy" },
+  { href: "/contact", label: "Contact Us" }
 ];
 
 export default function Navbar() {
