@@ -13,7 +13,9 @@ import { useUserSignOutMutation } from "@/services/api/authApi";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { formatRoleLabel, resolveDashboardPath } from "@/utils/roles";
 
-const NAV_LINKS = [];
+const NAV_LINKS = [
+  { href: "/privacy-policy", label: "Privacy Policy" }
+];
 
 export default function Navbar() {
   const pathname = usePathname();
