@@ -31,11 +31,7 @@ export default function DashboardNavbar({ onToggleSidebar }) {
           </button>
         )}
       </div>
-      <div className="flex-1 flex items-center justify-center gap-6">
-        <Link href="/about" className="text-sm font-bold text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors hidden sm:block">About Us</Link>
-        <Link href="/privacy-policy" className="text-sm font-bold text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors hidden sm:block">Privacy Policy</Link>
-        <Link href="/contact" className="text-sm font-bold text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors hidden sm:block">Contact Us</Link>
-      </div>
+      <div className="flex-1"></div>
       
       <div className="flex items-center gap-2 sm:gap-4">
         <ThemeToggle />
@@ -48,7 +44,7 @@ export default function DashboardNavbar({ onToggleSidebar }) {
               {user?.name || "User"}
             </p>
             <p className="text-[10px] text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest mt-1.5">
-              {user?.role === 'admin' ? 'Admin Portal' : (user?.role || 'Member')}
+              {user?.role === 'admin' ? 'Admin Portal' : user?.role === 'super_admin' ? 'Super Admin' : (user?.role || 'Member')}
             </p>
           </div>
           

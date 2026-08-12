@@ -5,6 +5,7 @@ import { useGetStatsQuery, useGetOrganizationsQuery, useDeleteOrganizationMutati
 import { Building2, Users, ShieldAlert, Mail, Phone, MapPin, ChevronRight, Trash2, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import ExportButtons from "@/components/ui/ExportButtons";
 
 export default function SuperAdminDashboard() {
   const router = useRouter();
@@ -35,6 +36,17 @@ export default function SuperAdminDashboard() {
     org.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const orgColumns = [
+    { header: "Organization Name", key: "name" },
+    { header: "Email", key: "email" },
+    { header: "Phone", key: "phone" },
+    { header: "City", key: "city" },
+    { header: "State", key: "state" },
+    { header: "Country", key: "country" },
+    { header: "Users Count", value: (row) => row._count?.users || 0 },
+    { header: "Registered Date", value: (row) => new Date(row.created_at).toLocaleDateString() }
+  ];
+
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8">
       <div>
@@ -59,7 +71,10 @@ export default function SuperAdminDashboard() {
       
       <div className="mt-12 space-y-6">
         <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Organizations</h2>
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Organizations</h2>
+            <ExportButtons data={filteredOrgs} columns={orgColumns} filename="Organizations" />
+          </div>
           <div className="relative w-full sm:w-72">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search size={18} className="text-slate-400" />

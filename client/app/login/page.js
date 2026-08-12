@@ -156,6 +156,9 @@ export default function LoginPage() {
               <SectionEyebrow className="mb-5">
                 Team Login
               </SectionEyebrow>
+              <div className="flex justify-center mb-6">
+                <img src="/images/tich-surksha-woman-transparent.png" alt="Brand Logo" className="w-20 h-20 sm:w-24 sm:h-24 object-contain drop-shadow-xl filter dark:brightness-110" />
+              </div>
               <h2 className="mb-2 text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-4xl">
                 Welcome to ढोल - ताशा महासंघ
               </h2>

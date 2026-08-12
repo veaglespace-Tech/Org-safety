@@ -12,7 +12,7 @@ import Footer from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {
-  title: "ढोल - ताशा महासंघ - Attendance Management Simplified",
+  title: "ढोल - ताशा महासंघ",
   description: "Modern multi-tenant attendance management system for organizations.",
 };
 
