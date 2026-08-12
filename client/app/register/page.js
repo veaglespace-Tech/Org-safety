@@ -48,7 +48,7 @@ export default async function RegisterPage({ searchParams }) {
           <RegistrationCard
             icon={Building2}
             title="Create Organization"
-            desc="Set up your organization, invite your team, and start managing attendance from one place."
+            desc="Set up your organization, invite your team, and start managing safety from one place."
             badge="Owner / Admin"
             href="/register/organisation"
           />

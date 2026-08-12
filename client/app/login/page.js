@@ -163,7 +163,7 @@ export default function LoginPage() {
                 Welcome to ढोल - ताशा महासंघ
               </h2>
               <p className="font-medium tracking-wide text-slate-500 dark:text-slate-300">
-                Sign in to manage attendance, check-ins, and your daily work in one place.
+                Sign in to manage safety, check-ins, and your daily work in one place.
               </p>
             </div>
 
