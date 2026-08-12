@@ -13,10 +13,10 @@ import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "ढोल - ताशा महासंघ",
-  description: "A comprehensive safety and empowerment platform for organizations.",
+  description: "A dedicated women's safety platform for organizations.",
   openGraph: {
     title: "ढोल - ताशा महासंघ",
-    description: "A comprehensive safety and empowerment platform for organizations.",
+    description: "A dedicated women's safety platform for organizations.",
     siteName: "ढोल - ताशा महासंघ",
     images: [
       {
@@ -32,7 +32,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ढोल - ताशा महासंघ",
-    description: "A comprehensive safety and empowerment platform for organizations.",
+    description: "A dedicated women's safety platform for organizations.",
     images: ["/images/tich-surksha-woman-transparent.png"],
   }
 };
