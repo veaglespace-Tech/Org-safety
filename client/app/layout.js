@@ -14,6 +14,27 @@ import { Toaster } from "react-hot-toast";
 export const metadata = {
   title: "ढोल - ताशा महासंघ",
   description: "Modern multi-tenant attendance management system for organizations.",
+  openGraph: {
+    title: "ढोल - ताशा महासंघ",
+    description: "Modern multi-tenant attendance management system for organizations.",
+    siteName: "ढोल - ताशा महासंघ",
+    images: [
+      {
+        url: "/images/tich-surksha-woman-transparent.png",
+        width: 800,
+        height: 800,
+        alt: "ढोल - ताशा महासंघ Logo",
+      }
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ढोल - ताशा महासंघ",
+    description: "Modern multi-tenant attendance management system for organizations.",
+    images: ["/images/tich-surksha-woman-transparent.png"],
+  }
 };
 
 const THEME_BOOTSTRAP_SCRIPT = `(() => {
