@@ -13,7 +13,7 @@ export default function Footer({ forceShow = false }) {
     pathname?.startsWith("/org") ||
     pathname?.startsWith("/member") ||
     pathname?.startsWith("/team-leader") ||
-    (pathname?.startsWith("/super-admin") && pathname !== "/super-admin/login");
+    (pathname?.startsWith("/admin") && pathname !== "/admin/login");
 
   if (!forceShow && isDashboardRoute) {
     return null;

@@ -36,7 +36,7 @@ const contactRoutes = require('./routes/contact.routes');
 app.use('/api/auth', authRoutes);
 app.use('/api/org', orgRoutes);
 app.use('/api/sos', sosRoutes);
-app.use('/api/super-admin', superAdminRoutes);
+app.use('/api/admin', superAdminRoutes);
 app.use('/api/emergency-emails', emergencyEmailsRoutes);
 app.use('/api/contact', contactRoutes);
 

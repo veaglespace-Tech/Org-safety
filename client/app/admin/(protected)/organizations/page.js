@@ -1,37 +1,70 @@
 "use client";
 
-import React from "react";
-import { useGetOrganizationsQuery } from "@/services/api/superAdminApi";
-import { Building2, Mail, Phone, MapPin, ChevronRight } from "lucide-react";
+import React, { useState } from "react";
+import { useGetOrganizationsQuery, useDeleteOrganizationMutation } from "@/services/api/superAdminApi";
+import { Building2, Mail, Phone, MapPin, ChevronRight, Trash2, Search, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function SuperAdminOrganizations() {
   const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
   const { data, isLoading } = useGetOrganizationsQuery();
+  const [deleteOrganization] = useDeleteOrganizationMutation();
+
+  const handleDelete = async (e, orgId, orgName) => {
+    e.stopPropagation();
+    if (window.confirm(`Are you sure you want to delete ${orgName}? When this organization is deleted, all users under it and their data will also be permanently deleted.`)) {
+      try {
+        await deleteOrganization(orgId).unwrap();
+      } catch (err) {
+        console.error("Failed to delete organization:", err);
+        alert("Failed to delete organization.");
+      }
+    }
+  };
 
   if (isLoading) return <div className="p-8">Loading organizations...</div>;
 
   const orgs = data?.organizations || [];
+  
+  const filteredOrgs = orgs.filter(org => 
+    org.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    org.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Organizations</h1>
-        <p className="text-slate-500 mt-2">Manage all registered organizations on the platform.</p>
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Organizations</h1>
+          <p className="text-slate-500 mt-2">Manage all registered organizations on the platform.</p>
+        </div>
+        <div className="relative w-full sm:w-72">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search size={18} className="text-slate-400" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search by name or email..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow dark:text-white"
+          />
+        </div>
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
         {/* Mobile View */}
         <div className="md:hidden flex flex-col gap-4 p-4 bg-slate-50/50 dark:bg-slate-900/20">
-          {orgs.length === 0 ? (
+          {filteredOrgs.length === 0 ? (
             <div className="p-8 text-center text-slate-500 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
               No organizations found.
             </div>
           ) : (
-            orgs.map((org) => (
+            filteredOrgs.map((org) => (
               <div
                 key={org.id}
-                onClick={() => router.push(`/super-admin/organizations/${org.id}`)}
+                onClick={() => router.push(`/admin/organizations/${org.id}`)}
                 className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden transition-all hover:shadow-md cursor-pointer active:scale-[0.98]"
               >
                 <div className="p-4 flex items-start gap-4">
@@ -48,7 +81,18 @@ export default function SuperAdminOrganizations() {
                       <MapPin size={12} className="shrink-0" />
                       <span className="truncate">{org.city}, {org.state}</span>
                     </div>
+                    <div className="flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 mt-1 font-medium">
+                      <Users size={12} className="shrink-0" />
+                      <span>{org._count?.users || 0} Users</span>
+                    </div>
                   </div>
+                  <button 
+                    onClick={(e) => handleDelete(e, org.id, org.name)}
+                    className="p-2 -mt-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors shrink-0"
+                    title="Delete Organization"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                   <ChevronRight size={18} className="text-slate-400 shrink-0 mt-1" />
                 </div>
                 <div className="px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2 text-xs">
@@ -82,15 +126,15 @@ export default function SuperAdminOrganizations() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {orgs.length === 0 ? (
+              {filteredOrgs.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="p-8 text-center text-slate-500">No organizations found.</td>
                 </tr>
               ) : (
-                orgs.map((org) => (
+                filteredOrgs.map((org) => (
                   <tr 
                     key={org.id} 
-                    onClick={() => router.push(`/super-admin/organizations/${org.id}`)}
+                    onClick={() => router.push(`/admin/organizations/${org.id}`)}
                     className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group"
                   >
                     <td className="p-4">
@@ -102,7 +146,12 @@ export default function SuperAdminOrganizations() {
                             <Building2 size={20} />
                           )}
                         </div>
-                        <div className="font-medium text-slate-900 dark:text-white">{org.name}</div>
+                        <div>
+                          <div className="font-medium text-slate-900 dark:text-white">{org.name}</div>
+                          <div className="flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 mt-0.5 font-medium">
+                            <Users size={12} /> {org._count?.users || 0} Users
+                          </div>
+                        </div>
                       </div>
                     </td>
                     <td className="p-4">
@@ -121,7 +170,16 @@ export default function SuperAdminOrganizations() {
                       {new Date(org.created_at).toLocaleDateString()}
                     </td>
                     <td className="p-4 text-right">
-                      <ChevronRight size={20} className="text-slate-400 group-hover:text-rose-500 transition-colors inline-block" />
+                      <div className="flex items-center justify-end gap-2">
+                        <button 
+                          onClick={(e) => handleDelete(e, org.id, org.name)}
+                          className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"
+                          title="Delete Organization"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                        <ChevronRight size={20} className="text-slate-400 group-hover:text-blue-500 transition-colors inline-block" />
+                      </div>
                     </td>
                   </tr>
                 ))

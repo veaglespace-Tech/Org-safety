@@ -161,7 +161,7 @@ exports.updateOrgUser = async (req, res) => {
     }
 
     const { id } = req.params;
-    const { name, phone, emergency_contact, role, city, gender, blood_group, current_address, permanent_address } = req.body;
+    const { name, email, phone, emergency_contact, role, city, gender, blood_group, current_address, permanent_address } = req.body;
 
     const currentUser = await prisma.users.findUnique({ where: { id: req.user.userId } });
     const userToUpdate = await prisma.users.findUnique({ where: { id: parseInt(id) } });
@@ -170,10 +170,18 @@ exports.updateOrgUser = async (req, res) => {
       return res.status(404).json({ error: "User not found in your organization." });
     }
 
+    if (email && email !== userToUpdate.email) {
+      const existingUser = await prisma.users.findUnique({ where: { email } });
+      if (existingUser) {
+        return res.status(400).json({ error: "Email is already registered by another user." });
+      }
+    }
+
     const updatedUser = await prisma.users.update({
       where: { id: parseInt(id) },
       data: {
         name: name !== undefined ? name : undefined,
+        email: email !== undefined ? email : undefined,
         phone: phone !== undefined ? phone : undefined,
         emergency_contact: emergency_contact !== undefined ? emergency_contact : undefined,
         role: role !== undefined ? role : undefined,

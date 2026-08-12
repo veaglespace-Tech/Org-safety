@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { LogOut, LayoutDashboard, Building2, Users, Menu } from "lucide-react";
+import { LogOut, LayoutDashboard, Building2, Users, Menu, Settings } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/authSlice";
 import { useRouter, usePathname } from "next/navigation";
@@ -17,7 +17,7 @@ export default function SuperAdminLayout({ children }) {
 
   useEffect(() => {
     if (!isAuthenticated || user?.role !== 'super_admin') {
-      router.push("/super-admin/login");
+      router.push("/admin/login");
     }
   }, [isAuthenticated, user, router]);
 
@@ -25,12 +25,12 @@ export default function SuperAdminLayout({ children }) {
 
   const handleLogout = () => {
     dispatch(logout());
-    router.push("/super-admin/login");
+    router.push("/admin/login");
   };
 
   const navItems = [
-    { name: "Dashboard", href: "/super-admin/dashboard", icon: LayoutDashboard },
-    { name: "Organizations", href: "/super-admin/organizations", icon: Building2 },
+    { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+    { name: "Settings", href: "/admin/settings", icon: Settings },
   ];
 
   return (

@@ -41,7 +41,7 @@ export default function Navbar() {
     pathname?.startsWith("/org") ||
     pathname?.startsWith("/member") ||
     pathname?.startsWith("/team-leader") ||
-    (pathname?.startsWith("/super-admin") && pathname !== "/super-admin/login");
+    (pathname?.startsWith("/admin") && pathname !== "/admin/login");
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
