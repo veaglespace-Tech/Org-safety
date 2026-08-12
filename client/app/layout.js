@@ -18,10 +18,11 @@ export const metadata = {
   openGraph: {
     title: "ढोल - ताशा महासंघ",
     description: "A dedicated women's safety platform for organizations.",
+    url: "https://tichisuraksha.veaglespace.com/",
     siteName: "ढोल - ताशा महासंघ",
     images: [
       {
-        url: "/images/tich-surksha-woman-transparent.png",
+        url: "https://tichisuraksha.veaglespace.com/images/tich-surksha-woman-transparent.png",
         width: 800,
         height: 800,
         alt: "ढोल - ताशा महासंघ Logo",
@@ -34,7 +35,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "ढोल - ताशा महासंघ",
     description: "A dedicated women's safety platform for organizations.",
-    images: ["/images/tich-surksha-woman-transparent.png"],
+    images: ["https://tichisuraksha.veaglespace.com/images/tich-surksha-woman-transparent.png"],
   }
 };
 
