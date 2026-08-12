@@ -12,6 +12,7 @@ import Footer from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {
+  metadataBase: new URL('https://tichisuraksha.veaglespace.com'),
   title: "ढोल - ताशा महासंघ",
   description: "A dedicated women's safety platform for organizations.",
   openGraph: {
