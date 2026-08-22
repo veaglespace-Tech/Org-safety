@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useTriggerSosMutation, useUpdateSosLocationMutation, useStopSosMutation } from "@/services/api/authApi";
 import { AlertTriangle, Shield, Phone, MapPin, Loader2, CheckCircle2, MessageCircle, Mail, RefreshCw, ExternalLink, User, Building2, Info } from "lucide-react";
 import { useSelector } from "react-redux";
+import useGeoLocationTracker from "@/hooks/useGeoLocationTracker";
 
 export default function TichSurkshaPage() {
   const [triggerSos, { isLoading }] = useTriggerSosMutation();
@@ -12,13 +13,19 @@ export default function TichSurkshaPage() {
   
   const [status, setStatus] = useState("idle"); // idle, success, error
   const [isSosActive, setIsSosActive] = useState(false);
+  const [trackingToken, setTrackingToken] = useState(null);
+  const { startTracking, stopTracking } = useGeoLocationTracker(trackingToken);
   const intervalRef = useRef(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const active = localStorage.getItem('isSosActive') === 'true';
+      const savedToken = localStorage.getItem('sosTrackingToken');
       if (active) {
         setIsSosActive(true);
+        if (savedToken) {
+          setTrackingToken(savedToken);
+        }
       }
     }
   }, []);
@@ -29,21 +36,32 @@ export default function TichSurkshaPage() {
       if (intervalRef.current) clearInterval(intervalRef.current);
       const sosIntervalMinutes = parseInt(process.env.NEXT_PUBLIC_SOS_INTERVAL_MINUTES) || 1;
       intervalRef.current = setInterval(async () => {
+        let liveTrackingUrl = "";
+        if (typeof window !== 'undefined' && trackingToken) {
+          liveTrackingUrl = `${window.location.origin}/live-tracking/${trackingToken}`;
+        }
+        
+        // Still fetch static location for fallback
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(
             async (position) => {
-              const liveLoc = `https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`;
+              const staticLoc = `https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`;
               try {
-                await updateSosLocation({ locationUrl: liveLoc }).unwrap();
+                await updateSosLocation({ locationUrl: liveTrackingUrl || staticLoc }).unwrap();
               } catch (err) {
                 console.error("Failed to send recurring SOS update", err);
               }
             },
             (err) => {
               console.warn("Could not fetch high accuracy interval location", err);
+              if (liveTrackingUrl) {
+                updateSosLocation({ locationUrl: liveTrackingUrl }).catch(e => console.error(e));
+              }
             },
             { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
           );
+        } else if (liveTrackingUrl) {
+           updateSosLocation({ locationUrl: liveTrackingUrl }).catch(e => console.error(e));
         }
       }, sosIntervalMinutes * 60 * 1000);
     } else {
@@ -147,9 +165,22 @@ export default function TichSurkshaPage() {
         localStorage.setItem('isSosActive', 'true');
       }
 
-      let locationUrl = "";
+      const newToken = user?.id ? `sos-${user.id}-${Date.now()}` : `sos-${Date.now()}`;
+      setTrackingToken(newToken);
+      if (typeof window !== "undefined") {
+        localStorage.setItem('sosTrackingToken', newToken);
+      }
+      // Wait for React to process token state or we can just start directly,
+      // but useGeoLocationTracker's useEffect will catch the new token automatically.
+      
+      let liveTrackingUrl = "";
+      let staticGoogleMapsUrl = "";
+      
+      if (typeof window !== 'undefined') {
+        liveTrackingUrl = `${window.location.origin}/live-tracking/${newToken}`;
+      }
       if (location) {
-        locationUrl = `https://maps.google.com/?q=${location.lat},${location.lng}`;
+        staticGoogleMapsUrl = `https://maps.google.com/?q=${location.lat},${location.lng}`;
       }
 
       // 1. OPEN WHATSAPP AND DIALER IMMEDIATELY (no await before this to prevent popup blockers)
@@ -160,7 +191,8 @@ export default function TichSurkshaPage() {
 📞 Phone: ${user?.phone || 'Not provided'}
 🚨 Emergency Contact: ${user?.emergencyContact || 'Not provided'}
 
-📍 LATEST LIVE LOCATION: ${locationUrl || 'Not available'}
+📍 LIVE TRACKING: ${liveTrackingUrl || 'Not available'}
+📍 STATIC MAP: ${staticGoogleMapsUrl || 'Not available'}
 `;
       
       // Open WhatsApp contact picker so the user can select multiple contacts (including their emergency contact)
@@ -173,21 +205,8 @@ export default function TichSurkshaPage() {
 
       // 2. TRIGGER SOS EMAILS IN BACKGROUND (API CALL)
       (async () => {
-        let apiLocationUrl = locationUrl;
-        if (!apiLocationUrl && "geolocation" in navigator) {
-          try {
-            apiLocationUrl = await new Promise((resolve) => {
-              navigator.geolocation.getCurrentPosition(
-                (position) => resolve(`https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`),
-                (err) => resolve(""),
-                { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
-              );
-            });
-          } catch (err) {}
-        }
-        
         try {
-          await triggerSos({ locationUrl: apiLocationUrl }).unwrap();
+          await triggerSos({ locationUrl: liveTrackingUrl || staticGoogleMapsUrl }).unwrap();
         } catch (error) {
           console.error("SOS trigger failed", error);
           setStatus("error");
@@ -203,8 +222,10 @@ export default function TichSurkshaPage() {
   const handleStopSos = async () => {
     try {
       setIsSosActive(false);
+      stopTracking();
       if (typeof window !== "undefined") {
         localStorage.removeItem('isSosActive');
+        localStorage.removeItem('sosTrackingToken');
       }
       setStatus("idle");
       await stopSos().unwrap();

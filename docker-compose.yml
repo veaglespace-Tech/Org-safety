@@ -1,0 +1,65 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: organization-safty-mysql
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: organization_safty
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - organization_safty_mysql_data:/var/lib/mysql
+      - ./organization_safty_backup.sql:/docker-entrypoint-initdb.d/01-organization-safty.sql:ro
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+
+  backend:
+    build:
+      context: ./server
+
+    container_name: organization-safty-backend
+    restart: unless-stopped
+
+    env_file:
+      - ./server/.env
+
+    ports:
+      - "5001:5001"
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+
+  frontend:
+    build:
+      context: ./client
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:5001/api
+
+    container_name: organization-safty-frontend
+    restart: unless-stopped
+
+    ports:
+      - "3001:3001"
+
+    depends_on:
+      - backend
+
+
+volumes:
+  organization_safty_mysql_data:
