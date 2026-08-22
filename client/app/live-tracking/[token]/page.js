@@ -4,15 +4,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { io } from 'socket.io-client';
-import { MapPin, Navigation } from 'lucide-react';
+import { Navigation, PhoneCall, AlertTriangle, User } from 'lucide-react';
 
 // Dynamically import the map to avoid SSR issues with Leaflet's window object
 const LiveLocationMap = dynamic(() => import('@/components/ui/LiveLocationMap'), {
   ssr: false,
   loading: () => (
-    <div className="flex flex-col items-center justify-center h-[600px] w-full bg-gray-50 rounded-xl shadow-sm border border-gray-100">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
-      <p className="text-gray-600 font-medium">Loading Map Interface...</p>
+    <div className="flex flex-col items-center justify-center h-full w-full bg-[#FFF0F3]">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FF2A6D] mb-4"></div>
+      <p className="text-[#2A0826] font-black text-sm uppercase tracking-widest animate-pulse">Establishing Satellite Link...</p>
     </div>
   ),
 });
@@ -75,88 +75,114 @@ const LiveTrackingViewer = () => {
     };
   }, [token]);
 
-  const openGoogleMaps = () => {
-    if (location.latitude && location.longitude) {
-      window.open(
-        `https://www.google.com/maps?q=${location.latitude},${location.longitude}`,
-        '_blank'
-      );
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-5xl mx-auto space-y-6">
-        
-        {/* Header Section */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="min-h-screen bg-[#FFF0F3] text-[#2A0826] font-sans p-4 lg:p-8 max-w-6xl mx-auto space-y-4 pb-12">
+      
+      {/* Header Banner */}
+      <div className="p-5 rounded-3xl text-white flex items-center justify-between shadow-xl bg-gradient-to-r from-[#FF2A6D] via-rose-500 to-[#FF2A6D] animate-pulse border-2 border-white">
+        <div className="flex items-center gap-3">
+          <div className="bg-white/20 p-2 rounded-full border border-white/50">
+            <User className="h-6 w-6 text-white" />
+          </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <MapPin className="h-6 w-6 text-indigo-600" />
-              Live Location Viewer
-            </h1>
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-sm text-gray-500">Tracking Session:</span>
-              <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-mono border border-gray-200">
-                {token}
-              </span>
-            </div>
+            <h1 className="text-xl sm:text-2xl font-black tracking-wider">LIVE GPS STREAM</h1>
+            <p className="text-xs sm:text-sm font-medium opacity-90 tracking-widest uppercase">ID: {token}</p>
           </div>
+        </div>
+        <div className="flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full border border-white/30 backdrop-blur-sm">
+          <span className="text-xs font-bold uppercase tracking-wider">Status</span>
+          {isConnected ? (
+            <span className="h-2.5 w-2.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]"></span>
+          ) : (
+            <span className="h-2.5 w-2.5 rounded-full bg-gray-400"></span>
+          )}
+        </div>
+      </div>
 
-          <div className="flex flex-col items-end gap-2">
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">Status:</span>
-              {isConnected ? (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                  Connected
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                  Disconnected
-                </span>
-              )}
-            </div>
-            
-            {location.timestamp && (
-              <span className="text-xs text-gray-400">
-                Last updated: {new Date(location.timestamp).toLocaleTimeString()}
-              </span>
-            )}
+      {error && (
+        <div className="bg-red-50 border-2 border-red-200 text-red-700 px-4 py-3 rounded-2xl text-sm font-bold flex items-center gap-2">
+          <AlertTriangle className="h-5 w-5" />
+          {error}
+        </div>
+      )}
+
+      {/* The Responsive Grid (Map + Command Panel) */}
+      <div className="lg:grid lg:grid-cols-12 lg:gap-8 lg:space-y-0">
+        
+        {/* Left Column: The Map */}
+        <div className="lg:col-span-8 mb-4 lg:mb-0">
+          <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white h-80 sm:h-96 lg:h-[600px] w-full relative">
+            <LiveLocationMap 
+              latitude={location.latitude} 
+              longitude={location.longitude} 
+              accuracy={location.accuracy} 
+              history={history}
+            />
           </div>
         </div>
 
-        {/* Error State */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-            {error}
-          </div>
-        )}
-
-        {/* Map Container */}
-        <div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-200">
-          <LiveLocationMap 
-            latitude={location.latitude} 
-            longitude={location.longitude} 
-            accuracy={location.accuracy} 
-            history={history}
-          />
-        </div>
-
-        {/* Action Bar */}
-        {location.latitude && location.longitude && (
-          <div className="flex justify-end">
-            <button
-              onClick={openGoogleMaps}
-              className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg shadow-sm transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              <Navigation className="h-4 w-4" />
-              Open in Google Maps
+        {/* Right Column: The Command Panel */}
+        <div className="lg:col-span-4 space-y-4">
+          
+          {/* 1. Siren / Alarm Trigger Card */}
+          <div className="bg-white border-2 border-[#FF2A6D] rounded-2xl p-4 shadow-md flex flex-col items-center text-center gap-3">
+            <div className="bg-[#FFF0F3] p-3 rounded-full text-[#FF2A6D]">
+              <AlertTriangle className="h-8 w-8" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-black text-lg">EMERGENCY SIREN</h3>
+              <p className="text-xs text-gray-500 font-medium">Trigger loud alarm on user's device</p>
+            </div>
+            <button className="w-full px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all bg-[#FF2A6D] text-white shadow-md flex items-center justify-center gap-2 hover:bg-[#E01A4F]">
+              <AlertTriangle className="h-4 w-4" />
+              PLAY EMERGENCY SIREN
             </button>
           </div>
-        )}
 
+          {/* 2. User Details Card */}
+          <div className="bg-white border-2 border-[#FFCCE1] rounded-3xl p-5 space-y-3 shadow-md">
+            <h3 className="font-black text-sm border-b border-[#FFCCE1] pb-2 text-gray-400 uppercase tracking-wider">Tracking Details</h3>
+            
+            <div className="flex justify-between items-center text-xs font-bold">
+              <span className="text-gray-500 uppercase">Emergency User Phone</span>
+              <span className="text-[#FF2A6D]">Registered Device</span>
+            </div>
+            
+            <div className="flex justify-between items-center text-xs font-bold">
+              <span className="text-gray-500 uppercase">Last GPS Timestamp</span>
+              <span className="text-gray-800">
+                {location.timestamp ? new Date(location.timestamp).toLocaleTimeString() : 'Waiting for data...'}
+              </span>
+            </div>
+            
+            <div className="flex justify-between items-center text-xs font-bold">
+              <span className="text-gray-500 uppercase">Accuracy</span>
+              <span className="text-gray-800">
+                {location.accuracy ? `~${Math.round(location.accuracy)} meters` : 'Unknown'}
+              </span>
+            </div>
+          </div>
+
+          {/* 3. Call 112 Button */}
+          <a href="tel:112" className="w-full bg-[#FF2A6D] text-white py-4 rounded-2xl text-center shadow-md flex items-center justify-center space-x-2 text-xs uppercase tracking-wider font-black hover:bg-[#E01A4F] transition-colors">
+            <PhoneCall className="h-5 w-5" />
+            <span>CALL 112 NATIONAL EMERGENCY</span>
+          </a>
+
+          {/* 4. Get Directions (Google Maps) Button */}
+          {location.latitude && location.longitude ? (
+            <a href={`https://www.google.com/maps?q=${location.latitude},${location.longitude}`} target="_blank" rel="noopener noreferrer" className="w-full bg-white border-2 border-[#FFCCE1] text-[#2A0826] py-3 rounded-2xl text-center shadow-sm flex items-center justify-center space-x-2 text-xs font-black hover:bg-gray-50 transition-colors">
+              <Navigation className="h-4 w-4 text-[#FF2A6D]" />
+              <span>GET DIRECTIONS (GOOGLE MAPS)</span>
+            </a>
+          ) : (
+            <div className="w-full bg-gray-100 border-2 border-gray-200 text-gray-400 py-3 rounded-2xl text-center shadow-sm flex items-center justify-center space-x-2 text-xs font-black cursor-not-allowed">
+              <Navigation className="h-4 w-4" />
+              <span>WAITING FOR LOCATION...</span>
+            </div>
+          )}
+
+        </div>
       </div>
     </div>
   );

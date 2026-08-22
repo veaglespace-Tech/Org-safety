@@ -1,5 +1,8 @@
 const { Server } = require('socket.io');
 
+// Cache to store the latest location for each token
+const locationCache = {};
+
 const initializeSocket = (server) => {
   const io = new Server(server, {
     cors: {
@@ -24,6 +27,11 @@ const initializeSocket = (server) => {
         const roomName = `track:${token}`;
         socket.join(roomName);
         console.log(`Socket ${socket.id} joined room: ${roomName}`);
+        
+        // If we have a cached location for this token, send it immediately to the newly joined socket
+        if (locationCache[token]) {
+          socket.emit('location-updated', locationCache[token]);
+        }
       }
     });
 
@@ -40,13 +48,18 @@ const initializeSocket = (server) => {
     socket.on('location-updated', (data) => {
       const { token, latitude, longitude, accuracy, timestamp } = data;
       if (token) {
-        // Broadcast location to the specific room, but exclude the sender
-        socket.to(`track:${token}`).emit('location-updated', {
+        const locationData = {
           latitude,
           longitude,
           accuracy,
           timestamp
-        });
+        };
+        
+        // Cache the latest location
+        locationCache[token] = locationData;
+
+        // Broadcast location to the specific room, but exclude the sender
+        socket.to(`track:${token}`).emit('location-updated', locationData);
       }
     });
 
