@@ -6,14 +6,24 @@ const locationCache = {};
 const initializeSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: [
-        'http://localhost:3000',
-        'http://localhost:3001',
-        'http://195.35.21.96',
-        'http://195.35.21.96:3000',
-        'http://195.35.21.96:3001',
-        'https://195.35.21.96'
-      ],
+      origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        const allowedOrigins = [
+          'http://localhost:3000',
+          'http://localhost:3001',
+          'http://195.35.21.96',
+          'http://195.35.21.96:3000',
+          'http://195.35.21.96:3001',
+          'https://195.35.21.96',
+          'https://tichisuraksha.veaglespace.com'
+        ];
+        // Allow any subdomain of veaglespace.com
+        if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.veaglespace.com')) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
       credentials: true
     }
   });
