@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { setLocation, setTrackingState, setLocationError, clearLocation } from '@/store/slices/locationSlice';
 
-const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5001';
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL ? new URL(process.env.NEXT_PUBLIC_API_URL).origin : 'http://localhost:5001';
+const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_SOCKET_URL || apiBaseUrl;
 
 export const useGeoLocationTracker = (token) => {
   const dispatch = useDispatch();
