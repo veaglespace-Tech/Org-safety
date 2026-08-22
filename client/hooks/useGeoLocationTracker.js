@@ -17,6 +17,7 @@ export const useGeoLocationTracker = (token) => {
     // 1. Initialize Socket.io connection
     if (!socketRef.current) {
       socketRef.current = io(SOCKET_SERVER_URL, {
+        path: '/api/socket.io',
         withCredentials: true,
       });
 

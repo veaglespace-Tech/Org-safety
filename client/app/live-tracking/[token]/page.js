@@ -40,6 +40,7 @@ const LiveTrackingViewer = () => {
     if (!token) return;
 
     socketRef.current = io(SOCKET_SERVER_URL, {
+      path: '/api/socket.io',
       withCredentials: true,
     });
 

@@ -5,6 +5,7 @@ const locationCache = {};
 
 const initializeSocket = (server) => {
   const io = new Server(server, {
+    path: '/api/socket.io', // Prefix with /api so Nginx proxies it to the backend!
     cors: {
       origin: (origin, callback) => {
         if (!origin) return callback(null, true);
