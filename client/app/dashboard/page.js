@@ -131,7 +131,7 @@ export default function Dashboard() {
               label="Today"
               value={isManager ? `${stats?.presentToday || 0} Present` : stats?.myAttendance || "0/0"}
             />
-            <MiniCard label="Organization" value={user?.organizationCode || "Veagle Attendee"} />
+            <MiniCard label="Organization" value={user?.organizationCode || "tichisuraksha"} />
             <MiniCard
               label={isManager ? "Productivity" : "Streak"}
               value={isManager ? `${stats?.productivity || 0}%` : `${stats?.streak || 0} Days`}
