@@ -213,49 +213,61 @@ const LiveLocationMap = ({ latitude, longitude, accuracy, heading, history = [] 
     ? history.slice(-MAX_TRAIL_POINTS) 
     : history;
 
-  if (!latitude || !longitude) {
-    return (
-      <div className="flex flex-col items-center justify-center h-full w-full bg-slate-50 dark:bg-slate-900 min-h-[400px]">
-        <div className="relative flex justify-center items-center mb-6">
-          <div className="absolute animate-ping h-16 w-16 rounded-full bg-blue-400 opacity-20"></div>
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 dark:border-blue-400"></div>
-          <div className="absolute h-6 w-6 bg-blue-600 rounded-full animate-pulse shadow-[0_0_15px_rgba(37,99,235,0.5)]"></div>
-        </div>
-        <p className="text-slate-800 dark:text-slate-200 font-black text-sm uppercase tracking-widest animate-pulse">Acquiring GPS Lock...</p>
-      </div>
-    );
-  }
+  const hasLocation = latitude != null && longitude != null;
+  // Default to Pune (18.5204, 73.8567) if no location is available yet
+  const displayLat = hasLocation ? latitude : 18.5204;
+  const displayLng = hasLocation ? longitude : 73.8567;
 
   return (
     <div className="relative w-full h-full rounded-none sm:rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-slate-800">
-      {/* Overlay Indicator */}
-      <div className="absolute top-4 left-4 z-[1000] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200/50 dark:border-slate-700/50 flex items-center gap-3 transition-all hover:scale-105">
-        <div className="relative flex h-3 w-3">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+      
+      {/* Waiting for Signal Overlay (shows when no location yet) */}
+      {!hasLocation && (
+        <div className="absolute inset-0 z-[2000] bg-white/40 dark:bg-slate-950/60 backdrop-blur-md flex flex-col items-center justify-center transition-all duration-500">
+          <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl shadow-2xl flex flex-col items-center max-w-sm w-[90%] text-center border border-slate-200 dark:border-slate-700 transition-transform hover:scale-105">
+            <div className="relative flex justify-center items-center mb-6">
+              <div className="absolute animate-ping h-20 w-20 rounded-full bg-blue-400 opacity-20"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 dark:border-blue-400"></div>
+              <div className="absolute h-6 w-6 bg-blue-600 rounded-full animate-pulse shadow-[0_0_15px_rgba(37,99,235,0.5)]"></div>
+            </div>
+            <h3 className="text-slate-900 dark:text-white font-black text-xl mb-2 tracking-tight">WAITING FOR SIGNAL</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-[11px] font-black uppercase tracking-[0.2em]">Acquiring GPS Lock from Tracker</p>
+          </div>
         </div>
-        <span className="text-[10px] sm:text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">Live Tracking</span>
-      </div>
+      )}
+
+      {/* Overlay Indicator */}
+      {hasLocation && (
+        <div className="absolute top-4 left-4 z-[1000] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200/50 dark:border-slate-700/50 flex items-center gap-3 transition-all hover:scale-105">
+          <div className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+          </div>
+          <span className="text-[10px] sm:text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">Live Tracking</span>
+        </div>
+      )}
 
       {/* Accuracy Badge */}
-      <div className="absolute top-4 right-4 z-[1000]">
-        <div className={`px-4 py-2.5 rounded-2xl shadow-xl border backdrop-blur-md text-[10px] font-black uppercase tracking-wider flex items-center gap-2 transition-all hover:scale-105 ${
-          accuracy <= 30 
-            ? 'bg-emerald-50/90 dark:bg-emerald-500/10 border-emerald-200/50 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400' 
-            : accuracy <= 100 
-            ? 'bg-amber-50/90 dark:bg-amber-500/10 border-amber-200/50 dark:border-amber-500/30 text-amber-700 dark:text-amber-400' 
-            : 'bg-rose-50/90 dark:bg-rose-500/10 border-rose-200/50 dark:border-rose-500/30 text-rose-700 dark:text-rose-400'
-        }`}>
-          <span className={`h-2.5 w-2.5 rounded-full shadow-lg ${
-            accuracy <= 30 ? 'bg-emerald-500 shadow-emerald-500/50' : accuracy <= 100 ? 'bg-amber-500 shadow-amber-500/50' : 'bg-rose-500 shadow-rose-500/50'
-          }`}></span>
-          ±{Math.round(accuracy)}m
+      {hasLocation && accuracy != null && (
+        <div className="absolute top-4 right-4 z-[1000]">
+          <div className={`px-4 py-2.5 rounded-2xl shadow-xl border backdrop-blur-md text-[10px] font-black uppercase tracking-wider flex items-center gap-2 transition-all hover:scale-105 ${
+            accuracy <= 30 
+              ? 'bg-emerald-50/90 dark:bg-emerald-500/10 border-emerald-200/50 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400' 
+              : accuracy <= 100 
+              ? 'bg-amber-50/90 dark:bg-amber-500/10 border-amber-200/50 dark:border-amber-500/30 text-amber-700 dark:text-amber-400' 
+              : 'bg-rose-50/90 dark:bg-rose-500/10 border-rose-200/50 dark:border-rose-500/30 text-rose-700 dark:text-rose-400'
+          }`}>
+            <span className={`h-2.5 w-2.5 rounded-full shadow-lg ${
+              accuracy <= 30 ? 'bg-emerald-500 shadow-emerald-500/50' : accuracy <= 100 ? 'bg-amber-500 shadow-amber-500/50' : 'bg-rose-500 shadow-rose-500/50'
+            }`}></span>
+            ±{Math.round(accuracy)}m
+          </div>
         </div>
-      </div>
+      )}
 
       <MapContainer
-        center={[latitude, longitude]}
-        zoom={17}
+        center={[displayLat, displayLng]}
+        zoom={hasLocation ? 17 : 12}
         style={{ height: '100%', width: '100%', zIndex: 1 }}
         zoomControl={false}
       >
@@ -264,10 +276,11 @@ const LiveLocationMap = ({ latitude, longitude, accuracy, heading, history = [] 
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        <ImperativeMarkerController lat={latitude} lng={longitude} accuracy={accuracy} heading={heading} />
+        {hasLocation && (
+          <ImperativeMarkerController lat={latitude} lng={longitude} accuracy={accuracy} heading={heading} />
+        )}
         
-        {/* Breadcrumb Trail with gradient effect */}
-        {cappedHistory.length > 1 && (
+        {hasLocation && cappedHistory.length > 1 && (
           <Polyline 
             positions={cappedHistory} 
             pathOptions={{ 
