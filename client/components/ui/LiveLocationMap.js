@@ -219,7 +219,7 @@ const LiveLocationMap = ({ latitude, longitude, accuracy, heading, history = [] 
   const displayLng = hasLocation ? longitude : 73.8567;
 
   return (
-    <div className="relative w-full h-full rounded-none sm:rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-slate-800">
+    <div className="absolute inset-0 rounded-none sm:rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-slate-800">
       
       {/* Waiting for Signal Overlay (shows when no location yet) */}
       {!hasLocation && (
