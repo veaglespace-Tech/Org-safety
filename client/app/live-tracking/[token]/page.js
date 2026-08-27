@@ -205,8 +205,8 @@ const LiveTrackingViewer = () => {
       <div className="lg:grid lg:grid-cols-12 lg:gap-6 flex-1 min-h-0 flex flex-col lg:flex-row space-y-4 lg:space-y-0">
         
         {/* Left Column: The Map */}
-        <div className="lg:col-span-8 flex-1 min-h-[50vh] lg:min-h-0 -mx-4 sm:mx-0 relative z-0">
-          <div className="sm:rounded-[2rem] overflow-hidden sm:shadow-2xl border-y-2 sm:border-4 border-white dark:border-slate-800 h-full min-h-[50vh] lg:min-h-[600px] w-full relative bg-slate-100 dark:bg-slate-900">
+        <div className="lg:col-span-8 flex-1 min-h-[60vh] lg:min-h-0 -mx-4 sm:mx-0 relative z-0">
+          <div className="sm:rounded-[2rem] overflow-hidden sm:shadow-2xl border-y-2 sm:border-4 border-white dark:border-slate-800 h-full min-h-[60vh] lg:min-h-[600px] w-full relative bg-slate-100 dark:bg-slate-900">
             <LiveLocationMap 
               latitude={location.latitude} 
               longitude={location.longitude} 
