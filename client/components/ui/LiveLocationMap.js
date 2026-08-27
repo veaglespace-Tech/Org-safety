@@ -196,9 +196,9 @@ const ImperativeMarkerController = ({ lat, lng, accuracy, heading }) => {
       const prevPos = prevPosRef.current;
       const panDistance = map.distance(L.latLng(prevPos), L.latLng(newPos));
       
-      // If moved more than 10 meters, pan smoothly
-      if (panDistance > 10) {
-        map.flyTo(newPos, map.getZoom(), { animate: true, duration: 1.2 });
+      // Use smooth panTo instead of flyTo to prevent jarring zoom-out swoops
+      if (panDistance > 5) {
+        map.panTo(newPos, { animate: true, duration: 0.8 });
         prevPosRef.current = newPos;
       }
     }
