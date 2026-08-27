@@ -19,10 +19,10 @@ const MAX_TRAIL_POINTS = 200;
  * Green ≤ 30m, Orange ≤ 100m, Red > 100m
  */
 function getAccuracyColor(accuracy) {
-  if (accuracy == null) return '#6366f1';
-  if (accuracy <= 30) return '#22c55e';   // green
-  if (accuracy <= 100) return '#f59e0b';  // orange/amber
-  return '#ef4444';                        // red
+  if (accuracy == null) return '#3b82f6';
+  if (accuracy <= 30) return '#10b981';   // emerald
+  if (accuracy <= 100) return '#f59e0b';  // amber
+  return '#f43f5e';                       // rose
 }
 
 /**
@@ -38,45 +38,45 @@ function createMarkerIcon(heading) {
     html: `
       <div style="
         position: relative;
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
       ">
         <!-- Pulse ring -->
         <div style="
           position: absolute;
           width: 100%;
           height: 100%;
-          background-color: #6366f1;
+          background-color: #3b82f6;
           border-radius: 50%;
           animation: livePulse 1.5s infinite ease-in-out;
         "></div>
         <!-- Center dot -->
         <div style="
           position: absolute;
-          top: 20%;
-          left: 20%;
-          width: 60%;
-          height: 60%;
+          top: 25%;
+          left: 25%;
+          width: 50%;
+          height: 50%;
           background-color: white;
           border-radius: 50%;
-          border: 3px solid #6366f1;
-          box-shadow: 0 0 6px rgba(99, 102, 241, 0.5);
+          border: 4px solid #2563eb;
+          box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
           z-index: 2;
         "></div>
         ${showArrow ? `
         <!-- Direction arrow -->
         <div style="
           position: absolute;
-          top: -14px;
+          top: -12px;
           left: 50%;
           transform: translateX(-50%) rotate(${rotation}deg);
           transform-origin: center 28px;
           width: 0;
           height: 0;
-          border-left: 6px solid transparent;
-          border-right: 6px solid transparent;
-          border-bottom: 14px solid #6366f1;
-          filter: drop-shadow(0 0 2px rgba(99,102,241,0.6));
+          border-left: 7px solid transparent;
+          border-right: 7px solid transparent;
+          border-bottom: 16px solid #2563eb;
+          filter: drop-shadow(0 0 3px rgba(37,99,235,0.6));
           z-index: 3;
         "></div>` : ''}
       </div>
@@ -85,10 +85,17 @@ function createMarkerIcon(heading) {
           0% { transform: scale(0.6); opacity: 1; }
           100% { transform: scale(2.8); opacity: 0; }
         }
+        /* Make map tiles dark mode compatible globally */
+        html.dark .leaflet-layer,
+        html.dark .leaflet-control-zoom-in,
+        html.dark .leaflet-control-zoom-out,
+        html.dark .leaflet-control-attribution {
+          filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+        }
       </style>
     `,
-    iconSize: [28, 28],
-    iconAnchor: [14, 14],
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
   });
 }
 
@@ -208,44 +215,48 @@ const LiveLocationMap = ({ latitude, longitude, accuracy, heading, history = [] 
 
   if (!latitude || !longitude) {
     return (
-      <div className="flex flex-col items-center justify-center h-full w-full bg-gray-50 min-h-[400px] rounded-lg shadow-sm border border-gray-100">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
-        <p className="text-gray-600 font-medium animate-pulse">Acquiring GPS Lock...</p>
+      <div className="flex flex-col items-center justify-center h-full w-full bg-slate-50 dark:bg-slate-900 min-h-[400px]">
+        <div className="relative flex justify-center items-center mb-6">
+          <div className="absolute animate-ping h-16 w-16 rounded-full bg-blue-400 opacity-20"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 dark:border-blue-400"></div>
+          <div className="absolute h-6 w-6 bg-blue-600 rounded-full animate-pulse shadow-[0_0_15px_rgba(37,99,235,0.5)]"></div>
+        </div>
+        <p className="text-slate-800 dark:text-slate-200 font-black text-sm uppercase tracking-widest animate-pulse">Acquiring GPS Lock...</p>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-full rounded-xl overflow-hidden shadow-lg border border-gray-200">
+    <div className="relative w-full h-full rounded-none sm:rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-slate-800">
       {/* Overlay Indicator */}
-      <div className="absolute top-4 left-4 z-[1000] bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-md border border-gray-100 flex items-center gap-3">
+      <div className="absolute top-4 left-4 z-[1000] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200/50 dark:border-slate-700/50 flex items-center gap-3 transition-all hover:scale-105">
         <div className="relative flex h-3 w-3">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
         </div>
-        <span className="text-sm font-semibold text-gray-800">Live GPS Tracking</span>
+        <span className="text-[10px] sm:text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">Live Tracking</span>
       </div>
 
       {/* Accuracy Badge */}
       <div className="absolute top-4 right-4 z-[1000]">
-        <div className={`px-3 py-1.5 rounded-full shadow-md border text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 ${
+        <div className={`px-4 py-2.5 rounded-2xl shadow-xl border backdrop-blur-md text-[10px] font-black uppercase tracking-wider flex items-center gap-2 transition-all hover:scale-105 ${
           accuracy <= 30 
-            ? 'bg-green-50 border-green-200 text-green-700' 
+            ? 'bg-emerald-50/90 dark:bg-emerald-500/10 border-emerald-200/50 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400' 
             : accuracy <= 100 
-            ? 'bg-amber-50 border-amber-200 text-amber-700' 
-            : 'bg-red-50 border-red-200 text-red-700'
+            ? 'bg-amber-50/90 dark:bg-amber-500/10 border-amber-200/50 dark:border-amber-500/30 text-amber-700 dark:text-amber-400' 
+            : 'bg-rose-50/90 dark:bg-rose-500/10 border-rose-200/50 dark:border-rose-500/30 text-rose-700 dark:text-rose-400'
         }`}>
-          <span className={`h-2 w-2 rounded-full ${
-            accuracy <= 30 ? 'bg-green-500' : accuracy <= 100 ? 'bg-amber-500' : 'bg-red-500'
+          <span className={`h-2.5 w-2.5 rounded-full shadow-lg ${
+            accuracy <= 30 ? 'bg-emerald-500 shadow-emerald-500/50' : accuracy <= 100 ? 'bg-amber-500 shadow-amber-500/50' : 'bg-rose-500 shadow-rose-500/50'
           }`}></span>
-          ~{Math.round(accuracy)}m
+          ±{Math.round(accuracy)}m
         </div>
       </div>
 
       <MapContainer
         center={[latitude, longitude]}
         zoom={17}
-        style={{ height: '100%', width: '100%' }}
+        style={{ height: '100%', width: '100%', zIndex: 1 }}
         zoomControl={false}
       >
         <TileLayer
@@ -260,9 +271,9 @@ const LiveLocationMap = ({ latitude, longitude, accuracy, heading, history = [] 
           <Polyline 
             positions={cappedHistory} 
             pathOptions={{ 
-              color: '#6366f1', 
-              weight: 4, 
-              opacity: 0.7, 
+              color: '#3b82f6', 
+              weight: 5, 
+              opacity: 0.8, 
               lineJoin: 'round',
               lineCap: 'round',
             }} 
