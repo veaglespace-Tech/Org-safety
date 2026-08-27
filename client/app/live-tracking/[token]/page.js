@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { io } from 'socket.io-client';
-import { Navigation, PhoneCall, AlertTriangle, User, Activity, Clock, Compass, Zap } from 'lucide-react';
+import { Navigation, PhoneCall, AlertTriangle, User, Activity, Clock, Compass, Zap, MapPin } from 'lucide-react';
 
 // Dynamically import the map to avoid SSR issues with Leaflet's window object
 const LiveLocationMap = dynamic(() => import('@/components/ui/LiveLocationMap'), {
