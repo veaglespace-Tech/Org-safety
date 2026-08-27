@@ -250,7 +250,7 @@ const LiveLocationMap = ({ latitude, longitude, accuracy, heading, history = [] 
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
         <ImperativeMarkerController lat={latitude} lng={longitude} accuracy={accuracy} heading={heading} />
