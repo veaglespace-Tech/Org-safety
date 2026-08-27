@@ -59,6 +59,7 @@ const LiveTrackingViewer = () => {
     socketRef.current = io(SOCKET_SERVER_URL, {
       path: '/api/socket.io',
       withCredentials: true,
+      transports: ['polling'], // Force polling to prevent WebSocket upgrade errors from Nginx
       reconnection: true,
       reconnectionAttempts: Infinity,
       reconnectionDelay: 1000,
