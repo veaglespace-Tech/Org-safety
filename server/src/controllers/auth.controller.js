@@ -373,6 +373,23 @@ exports.updateMe = async (req, res) => {
   }
 };
 
+exports.deleteMe = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    
+    // Attempt to delete user
+    await prisma.users.delete({
+      where: { id: userId }
+    });
+
+    res.clearCookie('token');
+    res.status(200).json({ message: "Account deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 exports.logout = (req, res) => {
   res.clearCookie('token');
   res.status(200).json({ message: "Logged out successfully" });

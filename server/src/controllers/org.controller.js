@@ -199,3 +199,23 @@ exports.updateOrgUser = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+exports.deleteOrganization = async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ error: "Only admins can delete the organization." });
+    }
+
+    const currentUser = await prisma.users.findUnique({ where: { id: req.user.userId } });
+    if (!currentUser) return res.status(404).json({ error: "User not found" });
+
+    await prisma.organizations.delete({
+      where: { id: currentUser.organization_id }
+    });
+
+    res.status(200).json({ message: "Organization deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting organization:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

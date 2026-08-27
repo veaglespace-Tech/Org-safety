@@ -14,4 +14,6 @@ router.post('/users', authenticateToken, orgController.createOrgUser);
 router.patch('/users/:id', authenticateToken, orgController.updateOrgUser);
 router.delete('/users/:id', authenticateToken, orgController.deleteOrgUser);
 
+router.delete('/', authenticateToken, orgController.deleteOrganization);
+
 module.exports = router;

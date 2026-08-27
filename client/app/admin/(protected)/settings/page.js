@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useUpdateMeMutation } from "@/services/api/authApi";
 import { setCurrentUser } from "@/store/slices/authSlice";
 import { User, Mail, Phone, Lock, Save, Loader2, CheckCircle2, Shield } from "lucide-react";
+import DeleteAccountSection from "@/components/settings/DeleteAccountSection";
 
 export default function SuperAdminSettings() {
   const { user } = useSelector((state) => state.auth);
@@ -156,6 +157,8 @@ export default function SuperAdminSettings() {
           </div>
         </form>
       </div>
+      
+      <DeleteAccountSection type="user" />
     </div>
   );
 }
