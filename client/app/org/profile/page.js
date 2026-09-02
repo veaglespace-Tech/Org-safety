@@ -7,7 +7,6 @@ import { authApi } from "@/services/api/authApi";
 import { orgApi } from "@/services/api/orgApi";
 import { setCurrentUser } from "@/store/slices/authSlice";
 import { toast } from "react-hot-toast";
-import DeleteAccountSection from "@/components/settings/DeleteAccountSection";
 
 export default function ProfileSettingsPage() {
   const dispatch = useDispatch();
@@ -657,9 +656,6 @@ export default function ProfileSettingsPage() {
             </button>
           </div>
         </form>
-        
-        {activeTab === "profile" && <DeleteAccountSection type="user" />}
-        {activeTab === "org" && <DeleteAccountSection type="org" />}
         </div>
       </div>
     </div>

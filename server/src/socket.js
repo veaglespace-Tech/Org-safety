@@ -133,4 +133,4 @@ const initializeSocket = (server) => {
   return io;
 };
 
-module.exports = initializeSocket;
+module.exports = { initializeSocket, locationCache };

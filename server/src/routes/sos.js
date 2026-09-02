@@ -5,6 +5,7 @@ const sosController = require('../controllers/sos.controller');
 
 router.post('/trigger', authenticateToken, sosController.triggerSOS);
 router.post('/update', authenticateToken, sosController.updateSOS);
+router.post('/background-location', authenticateToken, sosController.updateBackgroundLocation);
 router.post('/stop', authenticateToken, sosController.stopSOS);
 
 module.exports = router;

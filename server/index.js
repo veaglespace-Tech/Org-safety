@@ -3,7 +3,7 @@ const db = require('./src/config/db');
 const app = require('./src/app');
 
 const http = require('http');
-const initializeSocket = require('./src/socket');
+const { initializeSocket } = require('./src/socket');
 
 const PORT = process.env.PORT || 5001;
 
@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 5001;
 const server = http.createServer(app);
 
 // Initialize Socket.io
-initializeSocket(server);
+const io = initializeSocket(server);
+app.set('io', io);
 
 // Start the server
 server.listen(PORT, () => {
