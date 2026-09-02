@@ -18,8 +18,16 @@ const initializeSocket = (server) => {
           'https://195.35.21.96',
           'https://tichisuraksha.veaglespace.com'
         ];
-        // Allow any subdomain of veaglespace.com
-        if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.veaglespace.com')) {
+        // Allow any subdomain of veaglespace.com, plus local dev IPs and generic mobile app origins (null, exp://)
+        if (
+          allowedOrigins.indexOf(origin) !== -1 || 
+          origin.endsWith('.veaglespace.com') ||
+          origin.startsWith('exp://') ||
+          origin.startsWith('http://192.168.') ||
+          origin.startsWith('http://10.') ||
+          origin.startsWith('http://172.') ||
+          origin === 'null'
+        ) {
           callback(null, true);
         } else {
           callback(new Error('Not allowed by CORS'));
