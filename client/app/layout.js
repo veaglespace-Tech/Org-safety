@@ -36,7 +36,15 @@ export const metadata = {
     title: "ढोल - ताशा महासंघ",
     description: "A dedicated women's safety platform for organizations.",
     images: ["https://tichisuraksha.veaglespace.com/images/tich-surksha-woman-transparent.png"],
-  }
+  },
+  manifest: "/manifest.json"
+};
+
+export const viewport = {
+  themeColor: "#2563eb",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 const THEME_BOOTSTRAP_SCRIPT = `(() => {

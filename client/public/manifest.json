@@ -1,0 +1,28 @@
+{
+  "name": "तिची सुरक्षा - Tichi Suraksha",
+  "short_name": "तिची सुरक्षा",
+  "description": "ढोल - ताशा महासंघ द्वारे महिलांच्या सुरक्षिततेसाठी",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/images/tich-surksha-woman-transparent.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/tich-surksha-woman-transparent.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/tich-surksha-woman-transparent.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
