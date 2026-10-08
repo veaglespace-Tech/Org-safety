@@ -46,13 +46,14 @@ const initializeSocket = (server) => {
     // Join a specific tracking room
     socket.on('join-track', ({ token }) => {
       if (token) {
-        const roomName = `track:${token}`;
+        const safeToken = token.toUpperCase();
+        const roomName = `track:${safeToken}`;
         socket.join(roomName);
         console.log(`Socket ${socket.id} joined room: ${roomName}`);
         
         // If we have a cached location for this token, send it immediately to the newly joined socket
-        if (locationCache[token]) {
-          const cached = locationCache[token];
+        if (locationCache[safeToken]) {
+          const cached = locationCache[safeToken];
           // Only send if cached data is less than 5 minutes old
           const age = Date.now() - (cached.lastUpdated || 0);
           if (age < 5 * 60 * 1000) {
@@ -65,19 +66,22 @@ const initializeSocket = (server) => {
     // Leave tracking room
     socket.on('leave-track', ({ token }) => {
       if (token) {
-        const roomName = `track:${token}`;
+        const safeToken = token.toUpperCase();
+        const roomName = `track:${safeToken}`;
         socket.leave(roomName);
         console.log(`Socket ${socket.id} left room: ${roomName}`);
 
         // Remove from sender tracking
         const tokens = senderSockets.get(socket.id);
         if (tokens) {
+          tokens.delete(safeToken);
+          // Also delete original case just in case
           tokens.delete(token);
           if (tokens.size === 0) senderSockets.delete(socket.id);
         }
 
         // Notify viewers that the tracker has gone offline
-        io.to(roomName).emit('tracker-offline', { token, timestamp: Date.now() });
+        io.to(roomName).emit('tracker-offline', { token: safeToken, timestamp: Date.now() });
       }
     });
 
@@ -85,6 +89,7 @@ const initializeSocket = (server) => {
     socket.on('location-updated', (data) => {
       const { token, latitude, longitude, accuracy, speed, heading, timestamp } = data;
       if (token && latitude != null && longitude != null) {
+        const safeToken = token.toUpperCase();
         const locationData = {
           latitude,
           longitude,
@@ -96,23 +101,24 @@ const initializeSocket = (server) => {
         };
         
         // Cache the latest location
-        locationCache[token] = locationData;
+        locationCache[safeToken] = locationData;
 
         // Track this socket as a sender for this token
         if (!senderSockets.has(socket.id)) {
           senderSockets.set(socket.id, new Set());
         }
-        senderSockets.get(socket.id).add(token);
+        senderSockets.get(socket.id).add(safeToken);
 
         // Broadcast location to the specific room, but exclude the sender
-        socket.to(`track:${token}`).emit('location-updated', locationData);
+        socket.to(`track:${safeToken}`).emit('location-updated', locationData);
       }
     });
 
     // Handle heartbeat from tracker (keeps viewers aware that tracker is still alive)
     socket.on('tracker-heartbeat', ({ token }) => {
       if (token) {
-        socket.to(`track:${token}`).emit('tracker-alive', { token, timestamp: Date.now() });
+        const safeToken = token.toUpperCase();
+        socket.to(`track:${safeToken}`).emit('tracker-alive', { token: safeToken, timestamp: Date.now() });
       }
     });
 
