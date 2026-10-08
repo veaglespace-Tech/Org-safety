@@ -43,9 +43,10 @@ exports.updateBackgroundLocation = async (req, res) => {
       return res.status(400).json({ error: "Missing location data" });
     }
 
+    const safeToken = token.toUpperCase();
     const io = req.app.get('io');
     const locationData = {
-      token,
+      token: safeToken,
       latitude,
       longitude,
       accuracy: accuracy || 0,
@@ -55,13 +56,13 @@ exports.updateBackgroundLocation = async (req, res) => {
     };
     
     // Cache the location so new viewers get the latest immediately
-    locationCache[token] = {
+    locationCache[safeToken] = {
       ...locationData,
       lastUpdated: locationData.timestamp
     };
 
     if (io) {
-      io.to(`track:${token}`).emit('location-updated', locationData);
+      io.to(`track:${safeToken}`).emit('location-updated', locationData);
     }
 
     res.status(200).json({ success: true });
