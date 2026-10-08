@@ -67,6 +67,14 @@ export default function AboutPage() {
                     <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">In an emergency, tap the large SOS button. The app will immediately fetch your precise location and send alerts via SMS, Email, and WhatsApp to your trusted contacts.</p>
                   </div>
                 </div>
+
+                <div className="flex gap-4">
+                  <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400">4</div>
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">Live Tracking & Background Location</h3>
+                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">For continuous safety monitoring, the app requires <strong>background location access</strong>. This allows authorized organization members or trusted contacts to track your real-time live location on the map to ensure your safety throughout your journey, even when the app is minimized or running in the background.</p>
+                  </div>
+                </div>
               </div>
             </div>
 

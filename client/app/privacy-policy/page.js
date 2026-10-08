@@ -46,7 +46,7 @@ export default function PrivacyPolicyPage() {
               <ul className="mt-4 list-disc space-y-2 pl-6 text-slate-600 dark:text-slate-300">
                 <li><strong>Account Information:</strong> Your name, email address, phone number, and profile details provided during registration.</li>
                 <li><strong>Trusted Contacts:</strong> Names, phone numbers, and email addresses of the emergency contacts you choose to add.</li>
-                <li><strong>Location Data:</strong> Your precise GPS location data, but only when you actively trigger the safety or emergency features.</li>
+                <li><strong>Location Data:</strong> Your precise GPS location data, including background location access, to enable continuous live tracking for your safety and organization monitoring.</li>
                 <li><strong>Subscription/Payment Information:</strong> Information relating to paid plans and digital subscriptions (processed securely via Google Play billing or third-party payment gateways).</li>
               </ul>
             </section>
@@ -66,11 +66,11 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">4. Precise Location Collection and Sharing</h2>
+              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">4. Precise Location & Background Access</h2>
               <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                TichiSuraksha accesses your device's precise location <strong>only when you actively use the safety or emergency alert features</strong>. We do not track or collect your location continuously in the background when the app is not in an active emergency state. 
+                <strong>"TichiSuraksha collects location data to enable continuous live tracking and emergency SOS features, even when the app is closed or not in use."</strong> 
                 <br /><br />
-                When an emergency is triggered, your precise location is temporarily accessed and shared directly with your selected trusted contacts via email, SMS, and WhatsApp to help them locate you. We do not sell or share your location data for advertising or marketing purposes.
+                This background location access allows your organization leaders or trusted contacts to monitor your real-time location for your safety during an active trip or emergency. When an emergency is triggered, your precise live location is shared directly with your selected trusted contacts via email, SMS, and WhatsApp to help them locate you immediately. We do not sell or share your location data for advertising or marketing purposes.
               </p>
             </section>
 
