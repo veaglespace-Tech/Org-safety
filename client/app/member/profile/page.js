@@ -2,16 +2,21 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { User, Phone, ShieldPlus, Save, Loader2, CheckCircle2, Mail, Lock, Building2, MapPin, Camera } from "lucide-react";
+import { User, Phone, ShieldPlus, Save, Loader2, CheckCircle2, Mail, Lock, Building2, MapPin, Camera, Trash2, AlertTriangle, X } from "lucide-react";
 import { authApi } from "@/services/api/authApi";
 import { orgApi } from "@/services/api/orgApi";
-import { setCurrentUser } from "@/store/slices/authSlice";
+import { setCurrentUser, logout } from "@/store/slices/authSlice";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function ProfileSettingsPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const router = useRouter();
   const [updateMe, { isLoading }] = authApi.useUpdateMeMutation();
+  const [deleteMe, { isLoading: isDeleting }] = authApi.useDeleteMeMutation();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
   const [updateOrgDetails, { isLoading: isOrgLoading }] = orgApi.useUpdateOrgDetailsMutation();
   const [updateOrgLogo] = orgApi.useUpdateOrgLogoMutation();
   
@@ -183,6 +188,23 @@ export default function ProfileSettingsPage() {
       setStatus("error");
       toast.error("Failed to update profile.");
       setTimeout(() => setStatus("idle"), 3000);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (deleteConfirmText !== "DELETE") {
+      toast.error('Please type "DELETE" to confirm.');
+      return;
+    }
+    try {
+      await deleteMe().unwrap();
+      dispatch(logout());
+      toast.success("Account deleted successfully.");
+      setShowDeleteModal(false);
+      router.replace("/login");
+    } catch (err) {
+      console.error("Failed to delete account", err);
+      toast.error("Failed to delete account. Please try again.");
     }
   };
 
@@ -587,6 +609,104 @@ export default function ProfileSettingsPage() {
           </div>
         </form>
       </div>
+
+      {/* Danger Zone */}
+      <div className="mt-8 bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 border border-red-200 dark:border-red-900/50 shadow-sm">
+        <div className="flex items-start gap-4">
+          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/50 flex items-center justify-center">
+            <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400" />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-lg font-bold text-red-600 dark:text-red-400">Danger Zone</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Once you delete your account, there is no going back. All your data will be permanently removed.
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 flex justify-end">
+          <button
+            type="button"
+            onClick={() => { setDeleteConfirmText(""); setShowDeleteModal(true); }}
+            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-sm"
+          >
+            <Trash2 className="w-4 h-4" />
+            Delete My Account
+          </button>
+        </div>
+      </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowDeleteModal(false)}
+          />
+          {/* Modal */}
+          <div className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6 animate-in fade-in zoom-in-95 duration-200">
+            <button
+              type="button"
+              onClick={() => setShowDeleteModal(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-950/60 flex items-center justify-center flex-shrink-0">
+                <Trash2 className="w-6 h-6 text-red-600 dark:text-red-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Delete Account</h3>
+                <p className="text-sm text-slate-500">This action is permanent and irreversible.</p>
+              </div>
+            </div>
+
+            <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-xl p-4 mb-5">
+              <p className="text-sm text-red-700 dark:text-red-300 font-medium">
+                ⚠️ This will permanently delete your account, all your data, and remove you from the organization.
+              </p>
+            </div>
+
+            <div className="mb-5">
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                Type <span className="font-mono text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 px-1.5 py-0.5 rounded">DELETE</span> to confirm
+              </label>
+              <input
+                type="text"
+                value={deleteConfirmText}
+                onChange={(e) => setDeleteConfirmText(e.target.value)}
+                placeholder="Type DELETE here"
+                className="block w-full px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all font-mono"
+                autoComplete="off"
+              />
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteAccount}
+                disabled={isDeleting || deleteConfirmText !== "DELETE"}
+                className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 disabled:bg-red-300 dark:disabled:bg-red-900/50 disabled:cursor-not-allowed text-white px-4 py-3 rounded-xl font-semibold text-sm transition-all"
+              >
+                {isDeleting ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Deleting...</>
+                ) : (
+                  <><Trash2 className="w-4 h-4" /> Delete Account</>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
