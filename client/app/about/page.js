@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ChevronLeft, Shield, Users, Bell, Smartphone, Monitor } from "lucide-react";
+import { ChevronLeft, Shield, Users, Bell, Smartphone, Monitor, Phone } from "lucide-react";
 
 export const metadata = {
   title: "About & User Guide | TichiSuraksha",
@@ -122,12 +122,20 @@ export default function AboutPage() {
             <p className="mb-6 text-sm text-slate-600 dark:text-slate-400">
               If you have any questions or run into technical issues while using the platform, our support team is ready to assist you.
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-500/30 transition-transform hover:-translate-y-0.5 hover:bg-blue-700"
-            >
-              Contact Support
-            </Link>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <a
+                href="tel:+919225241608"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-500/30 transition-transform hover:-translate-y-0.5 hover:bg-blue-700"
+              >
+                <Phone size={16} /> Helpline: +91 92252 41608
+              </a>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-xl border border-blue-600 bg-white px-6 py-3 text-sm font-bold text-blue-600 shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-slate-50 dark:bg-slate-900 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-slate-800"
+              >
+                Contact Support
+              </Link>
+            </div>
           </div>
         </div>
       </div>

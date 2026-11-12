@@ -121,10 +121,10 @@ export default function HomeHero() {
                     </div>
                     <div className="space-y-2">
                       <h4 className="text-lg font-bold text-slate-900 dark:text-white sm:text-xl group-hover:text-rose-600 dark:group-hover:text-rose-300 transition-colors">
-                        थेट कॉल व मेसेज
+                        थेट कॉल व हेल्पलाइन
                       </h4>
                       <p className="text-base font-medium leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
-                        Direct Call व WhatsApp शेअर लिंकद्वारे तुम्ही एका क्लिकवर तुमच्या जवळच्या व्यक्तींना माहिती पाठवू शकता.
+                        हेल्पलाइन <strong>+91 92252 41608</strong> वर Direct Call व WhatsApp द्वारे तुम्ही एका क्लिकवर संपर्क व तात्काळ मदत मिळवू शकता.
                       </p>
                     </div>
                   </div>

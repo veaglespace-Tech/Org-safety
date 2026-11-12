@@ -149,8 +149,9 @@ export default function PrivacyPolicyPage() {
               <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                 If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at:
                 <br /><br />
-                <strong>Email:</strong> [PRIVACY EMAIL]<br />
-                <strong>Company:</strong> [COMPANY LEGAL NAME]
+                <strong>Helpline / Support Phone:</strong> <a href="tel:+919225241608" className="text-blue-600 hover:underline font-semibold">+91 92252 41608</a><br />
+                <strong>Email:</strong> support@tichisuraksha.com<br />
+                <strong>Company:</strong> Veagle Space Technology Pvt. Ltd.
               </p>
             </section>
 

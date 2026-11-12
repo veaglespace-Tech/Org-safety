@@ -379,7 +379,7 @@ export default function TichSurkshaPage() {
               <div className="flex-1 h-px bg-slate-200 dark:bg-slate-800"></div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               
               {/* Call 112 */}
               <a href="tel:112" className="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl border border-rose-500/50 hover:bg-rose-500/10 transition-colors group">
@@ -390,12 +390,21 @@ export default function TichSurkshaPage() {
                 </div>
               </a>
 
+              {/* Support / Helpline */}
+              <a href="tel:+919225241608" className="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl border border-indigo-500/50 hover:bg-indigo-500/10 transition-colors group">
+                <Phone size={28} className="text-indigo-500 group-hover:scale-110 transition-transform" />
+                <div className="text-center">
+                  <div className="text-indigo-400 font-bold text-xs truncate">92252 41608</div>
+                  <div className="text-indigo-500/60 text-[10px] uppercase font-bold tracking-wider">Helpline</div>
+                </div>
+              </a>
+
               {/* WhatsApp */}
-              <a href="https://wa.me/" target="_blank" rel="noreferrer" className="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl border border-emerald-500/50 hover:bg-emerald-500/10 transition-colors group">
+              <a href="https://wa.me/919225241608" target="_blank" rel="noreferrer" className="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl border border-emerald-500/50 hover:bg-emerald-500/10 transition-colors group">
                 <MessageCircle size={28} className="text-emerald-500 group-hover:scale-110 transition-transform" />
                 <div className="text-center">
                   <div className="text-emerald-400 font-bold text-sm">WHATSAPP</div>
-                  <div className="text-emerald-500/60 text-[10px] uppercase font-bold tracking-wider">Location</div>
+                  <div className="text-emerald-500/60 text-[10px] uppercase font-bold tracking-wider">Support Chat</div>
                 </div>
               </a>
 

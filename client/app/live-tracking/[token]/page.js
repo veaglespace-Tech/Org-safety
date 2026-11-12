@@ -291,6 +291,11 @@ const LiveTrackingViewer = () => {
               <span className="truncate">CALL 112 EMERGENCY</span>
             </a>
 
+            <a href="tel:+919225241608" className="w-full bg-blue-600 text-white py-4 rounded-2xl text-center shadow-lg shadow-blue-500/20 flex items-center justify-center space-x-2 text-xs uppercase tracking-wider font-black hover:bg-blue-700 transition-colors">
+              <PhoneCall className="h-5 w-5 shrink-0" />
+              <span className="truncate">CALL HELPLINE (92252 41608)</span>
+            </a>
+
             {location.latitude && location.longitude ? (
               <a href={`https://www.google.com/maps?q=${location.latitude},${location.longitude}`} target="_blank" rel="noopener noreferrer" className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white py-4 rounded-2xl text-center shadow-md flex items-center justify-center space-x-2 text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
                 <Navigation className="h-5 w-5 text-blue-600 dark:text-blue-400 shrink-0" />
